@@ -1,6 +1,7 @@
 import mysql from "mysql2";
+import chalk from "chalk";
 
-const connection = mysql.createConnection({
+export const connection = mysql.createConnection({
   host: process.env.LOCALDB_HOST,
   port: process.env.LOCALDB_PORT,
   user: process.env.LOCALDB_USER,
@@ -9,8 +10,8 @@ const connection = mysql.createConnection({
 });
 connection.connect(function (err) {
   if (err) {
-    return console.error("Error: " + err.message);
+    return console.error(chalk.red.bold("Error: " + err.message));
   } else {
-    console.log("Succcesfull connection to db!");
+    console.log(chalk.green.bold("Succcesfull connection to db!"));
   }
 });
