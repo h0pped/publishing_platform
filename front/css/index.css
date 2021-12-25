@@ -144,6 +144,7 @@ section#recent-articles .articles-grid {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 500;
+  margin-bottom: 7rem;
 }
 section#recent-articles .article {
   display: flex;
