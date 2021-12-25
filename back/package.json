@@ -1,12 +1,13 @@
 {
   "name": "publishing_platform",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "DB projcet",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js -e js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "standard-version"
   },
   "author": "awri.l",
   "license": "ISC",
