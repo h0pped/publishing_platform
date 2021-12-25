@@ -1,4 +1,5 @@
 @use "util/colors";
+@use "util/typography";
 @import "style";
 
 .navbar {
@@ -31,35 +32,70 @@
     }
   }
 }
-
-#landing-section {
+section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 90vh;
-  font-family: "Roboto Slab", serif;
-  background: colors.$base-dark;
-  color: colors.$font-white;
-  position: relative;
-  .title {
-    margin-top: 5rem;
-    text-align: center;
-    margin-bottom: 4rem;
-    h1 {
-      font-size: 4rem;
-      font-style: italic;
+  &#landing-section {
+    height: 90vh;
+    font-family: "Roboto Slab", serif;
+    background: colors.$base-dark;
+    color: colors.$font-white;
+    position: relative;
+    margin-bottom: 7rem;
+    .title-container {
+      margin-top: 5rem;
+      text-align: center;
+      margin-bottom: 4rem;
+      h1 {
+        font-style: italic;
+      }
+      h3 {
+        font-weight: lighter;
+      }
     }
-    h3 {
-      font-weight: lighter;
+    img {
+      position: absolute;
+      top: 65%;
+    }
+    .login {
+      display: flex;
+      justify-content: space-evenly;
+      width: 30%;
     }
   }
-  img {
-    position: absolute;
-    top: 65%;
-  }
-  .login {
-    display: flex;
-    justify-content: space-evenly;
-    width: 30%;
+  &#recent-articles {
+    max-width: 1200px;
+    margin: auto;
+    .info {
+      margin-bottom: 7rem;
+    }
+    .articles-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-gap: 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+    }
+    .article {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 300px;
+      .article-thumbnail {
+        img {
+          width: 300px;
+          height: 180px;
+          object-fit: cover;
+        }
+      }
+      .article-title {
+        margin-top: 1rem;
+        text-align: center;
+      }
+    }
   }
 }

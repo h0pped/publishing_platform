@@ -1,5 +1,6 @@
 @use "util/colors";
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&display=swap");
 * {
   box-sizing: border-box;
   padding: 0;
@@ -7,6 +8,7 @@
 }
 body {
   background-color: colors.$base;
+  font-family: "Roboto Slab", serif;
 }
 a {
   transition: all 0.5s ease;
@@ -16,8 +18,18 @@ a {
   &.button-link {
     border: 1px solid colors.$font-white;
     padding: 0.7rem 1rem;
+    background-size: 100% 200%;
+    background-image: linear-gradient(
+      to bottom,
+      colors.$base-dark 50%,
+      colors.$base 50%
+    );
+    &:hover {
+      background-position: 0 100%;
+      color: rgb(0, 0, 0);
+    }
   }
-  &.active:after {
+  &.active::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -28,8 +40,17 @@ a {
     transition: all 0.5s ease;
   }
   &:hover {
-    &.active:after {
+    &.active::after {
       top: 100%;
     }
   }
+}
+.underline::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -20%;
+  left: 0;
+  background: colors.$base-dark;
 }
