@@ -1,0 +1,21 @@
+{
+  "name": "publishing_platform",
+  "version": "1.0.0",
+  "description": "DB projcet",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js -e js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "awri.l",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "express": "^4.17.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "standard-version": "^9.3.2"
+  }
+}
