@@ -5,7 +5,6 @@ import { connection } from "../db/connection.js";
 import * as articleQueries from "../db/queries/articlequeries.js";
 
 router.get("/articles/recent", (req, res) => {
-  console.log("ARTICLES");
   connection.query(articleQueries.getRecentArticles(), (err, dbres, fields) => {
     res.send(dbres);
   });
