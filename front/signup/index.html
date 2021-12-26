@@ -30,9 +30,13 @@
     </nav>
     <div class="container">
       <h1 class="title">Sign up</h1>
-      <form class="form-grid">
+      <form class="form-grid" id="signup-form">
         <div id="profile-photo" class="input-container-grid">
           <label for="image-input">Profile Photo</label>
+          <label for="image-input" class="image-preview-label">
+            <p id="image-preview-text">Image preview</p>
+            <img src="" alt="" class="image-preview" />
+          </label>
           <input type="file" name="profile_thumbnail" id="image-input" />
         </div>
         <div id="name" class="input-container-grid">
