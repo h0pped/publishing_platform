@@ -1,5 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Hind&display=swap");
+.title {
+  font-size: 3rem;
+  line-height: 5rem;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  position: relative;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -17,11 +33,17 @@ a {
   position: relative;
   color: #fff;
 }
+a.dark {
+  color: #191919;
+}
 a.button-link {
   border: 1px solid #fff;
   padding: 0.7rem 1rem;
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, #191919 50%, #f4f4f4 50%);
+}
+a.button-link.dark {
+  background: #191919;
 }
 a.button-link:hover {
   background-position: 0 100%;
@@ -41,6 +63,33 @@ a:hover.active::after {
   top: 100%;
 }
 
+.btn {
+  font-family: "Roboto Slab", serif;
+  color: #191919;
+  border: 1px solid #191919;
+  padding: 0.7rem 1rem;
+  background: #f4f4f4;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn.full-width {
+  width: 100%;
+}
+.btn.dark {
+  background: #191919;
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .underline::after {
   content: "";
   position: absolute;
@@ -49,6 +98,78 @@ a:hover.active::after {
   bottom: -20%;
   left: 0;
   background: #191919;
+}
+
+.navbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  font-family: "Roboto Slab", serif;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  background: #191919;
+  padding: 2rem 5rem;
+  align-items: center;
+  max-width: 100%;
+  min-width: 100%;
+}
+.navbar a.logo {
+  color: #fff;
+  font-size: 1.3rem;
+}
+.navbar ul {
+  display: flex;
+  width: 30%;
+  justify-content: space-evenly;
+  align-items: center;
+  list-style: none;
+  font-size: 1.3rem;
+}
+.navbar ul a {
+  color: #fff;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-width: 30%;
+}
+.form .submit-container {
+  width: 100%;
+}
+.form .input-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 100%;
+  margin: 1rem;
+}
+.form .input-container:first-child {
+  margin: 0 0 1rem;
+}
+.form .input-container label {
+  margin: 0 0 0.3rem 0.5rem;
+}
+.form .input-container input {
+  background: #f4f4f4;
+  border: 1px solid #191919;
+  font-size: 1rem;
+  padding: 0.5rem 0.5rem;
+}
+.form .submit-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.form .submit-container button[type=submit] {
+  margin-bottom: 0.5rem;
+}
+.form .submit-container p {
+  margin-bottom: 0.7rem;
 }
 
 /*# sourceMappingURL=style.css.map */

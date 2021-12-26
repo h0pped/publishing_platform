@@ -4,9 +4,46 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Publishing Platform - Log In</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/login.css" />
   </head>
   <body>
-    login
+    <nav class="navbar">
+      <a href="#" class="logo">Logo</a>
+      <ul>
+        <li>
+          <a href="../">Main</a>
+        </li>
+        <li>
+          <a href="#">Browse</a>
+        </li>
+        <li>
+          <a href="#">FAQ</a>
+        </li>
+        <li>
+          <a href="#" class="active">Account</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <h1 class="title">Log in</h1>
+      <form class="form login-form">
+        <div class="input-container">
+          <label for="email-input">Email</label>
+          <input type="email" name="email" id="email-input" />
+        </div>
+        <div class="input-container">
+          <label for="password-input">Password</label>
+          <input type="password" name="password" id="password-input" />
+        </div>
+        <div class="submit-container">
+          <button type="submit" class="btn dark full-width">Log in!</button>
+          <p>Don’t have account yet? What are you waiting for?</p>
+          <a href="../signup" class="dark underline">Sign up!</a>
+        </div>
+      </form>
+      <img src="../assets/people.svg" alt="" id="landing-people" />
+    </div>
   </body>
 </html>

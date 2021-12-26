@@ -2,36 +2,6 @@
 @use "util/typography";
 @import "style";
 
-.navbar {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  font-family: "Roboto Slab", serif;
-  a.logo {
-    color: colors.$font-white;
-    font-size: 1.3rem;
-  }
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  background: colors.$base-dark;
-  padding: 2rem 5rem;
-  align-items: center;
-  max-width: 100%;
-  min-width: 100%;
-
-  ul {
-    display: flex;
-    width: 30%;
-    justify-content: space-evenly;
-    align-items: center;
-    list-style: none;
-    font-size: 1.3rem;
-    a {
-      color: colors.$font-white;
-    }
-  }
-}
 section {
   display: flex;
   flex-direction: column;
@@ -42,7 +12,8 @@ section {
     background: colors.$base-dark;
     color: colors.$font-white;
     position: relative;
-    margin-bottom: 7rem;
+
+    margin-bottom: 6.5rem;
     .title-container {
       margin-top: 5rem;
       text-align: center;
