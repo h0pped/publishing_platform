@@ -20,9 +20,13 @@ import { getAllUsers } from "./db/queries/userqueries.js";
 //routes
 import articleRoutes from "./routes/articleRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import countryRoutes from "./routes/countryRoutes.js";
+import cityRoutes from "./routes/cityRoutes.js";
 // const articleRoutes =  require('./routes')
 app.use(articleRoutes);
 app.use(userRoutes);
+app.use(countryRoutes);
+app.use(cityRoutes);
 app.get("/", (req, res) => {
   connection.query(getAllUsers(), (err, dbres, fields) => {
     res.send(dbres);
