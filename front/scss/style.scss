@@ -142,7 +142,8 @@ a {
     label {
       margin: 0 0 0.3rem 0.5rem;
     }
-    input {
+    input,
+    select {
       background: colors.$base;
       border: 1px solid colors.$base-dark;
       font-size: 1rem;

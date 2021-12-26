@@ -1,0 +1,85 @@
+.title {
+  font-size: 3rem;
+  line-height: 5rem;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  position: relative;
+}
+
+.container {
+  max-width: 1000px;
+}
+
+form {
+  display: grid;
+  grid-template-areas: "photo name surname" "photo email password" "photo country city" "gender street postal" "description description description";
+  gap: 2rem;
+  width: 100%;
+}
+form .input-container-grid {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+form label {
+  margin: 0 0 0.3rem 0.5rem;
+}
+form input,
+form select {
+  display: block;
+  background: #f4f4f4;
+  border: 1px solid #191919;
+  font-size: 1rem;
+  padding: 0.5rem 0.5rem;
+}
+form #profile-photo {
+  grid-area: photo;
+}
+form #profile-photo input {
+  height: 100%;
+}
+form #name {
+  grid-area: name;
+}
+form #surname {
+  grid-area: surname;
+}
+form #email {
+  grid-area: email;
+}
+form #password {
+  grid-area: password;
+}
+form #country {
+  grid-area: country;
+}
+form #city {
+  grid-area: city;
+}
+form #gender {
+  grid-area: gender;
+}
+form #street {
+  grid-area: street;
+}
+form #postal {
+  grid-area: postal;
+}
+form #description {
+  grid-area: description;
+}
+form #description textarea {
+  font-size: 1rem;
+  background: transparent;
+  padding: 0.2rem;
+}
+
+/*# sourceMappingURL=signup.css.map */

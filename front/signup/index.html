@@ -4,9 +4,84 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Publishing Platform - Sign up!</title>
+    <title>Publishing Platform - Log In</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/signup.css" />
+
+    <script src="../scripts/signup.js" defer></script>
   </head>
   <body>
-    Sign up!
+    <nav class="navbar">
+      <a href="#" class="logo">Logo</a>
+      <ul>
+        <li>
+          <a href="../">Main</a>
+        </li>
+        <li>
+          <a href="#">Browse</a>
+        </li>
+        <li>
+          <a href="#">FAQ</a>
+        </li>
+        <li>
+          <a href="../login" class="active">Account</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <h1 class="title">Sign up</h1>
+      <form class="form-grid">
+        <div id="profile-photo" class="input-container-grid">
+          <label for="image-input">Profile Photo</label>
+          <input type="file" name="profile_thumbnail" id="image-input" />
+        </div>
+        <div id="name" class="input-container-grid">
+          <label for="name-input">Name</label>
+          <input type="text" name="name" id="name-input" />
+        </div>
+        <div id="surname" class="input-container-grid">
+          <label for="surname-input">Surname</label>
+          <input type="text" name="surname" id="surname-input" />
+        </div>
+        <div id="email" class="input-container-grid">
+          <label for="email-input">Email</label>
+          <input type="email" name="email" id="email-input" />
+        </div>
+        <div id="password" class="input-container-grid">
+          <label for="password-input">Password</label>
+          <input type="password" name="password" id="password-input" />
+        </div>
+        <div id="country" class="input-container-grid">
+          <label for="country-input">Country</label>
+          <select name="country" id="country-input"></select>
+        </div>
+        <div id="city" class="input-container-grid">
+          <label for="city-input">City</label>
+          <input type="text" name="city" id="city-input" list="cityname" />
+          <datalist id="cityname"> </datalist>
+        </div>
+        <div id="gender" class="input-container-grid">
+          <label for="gender-input">Gender</label>
+          <select name="gender" id="gender-input"></select>
+        </div>
+        <div id="street" class="input-container-grid">
+          <label for="street-input">Street</label>
+          <input type="text" name="street" id="street-input" />
+        </div>
+        <div id="postal" class="input-container-grid">
+          <label for="postal-input">Postal Code</label>
+          <input type="text" name="postal" id="postal-input" />
+        </div>
+        <div id="description" class="input-container-grid">
+          <label for="description-input">Profile Description</label>
+          <textarea
+            name="description"
+            id="description-input"
+            rows="10"
+          ></textarea>
+        </div>
+      </form>
+      <img src="../assets/people.svg" alt="" id="landing-people" />
+    </div>
   </body>
 </html>

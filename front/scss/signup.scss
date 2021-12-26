@@ -1,0 +1,76 @@
+@use "util/colors";
+@use "util/typography";
+
+.container {
+  max-width: 1000px;
+}
+form {
+  display: grid;
+
+  grid-template-areas:
+    "photo name surname"
+    "photo email password"
+    "photo country city"
+    "gender street postal"
+    "description description description";
+  gap: 2rem;
+  .input-container-grid {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  width: 100%;
+  label {
+    margin: 0 0 0.3rem 0.5rem;
+  }
+  input,
+  select {
+    display: block;
+    background: colors.$base;
+    border: 1px solid colors.$base-dark;
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem;
+  }
+  #profile-photo {
+    grid-area: photo;
+    input {
+      height: 100%;
+    }
+  }
+  #name {
+    grid-area: name;
+  }
+  #surname {
+    grid-area: surname;
+  }
+  #email {
+    grid-area: email;
+  }
+  #password {
+    grid-area: password;
+  }
+  #country {
+    grid-area: country;
+  }
+  #city {
+    grid-area: city;
+  }
+  #gender {
+    grid-area: gender;
+  }
+  #street {
+    grid-area: street;
+  }
+  #postal {
+    grid-area: postal;
+  }
+
+  #description {
+    grid-area: description;
+    textarea {
+      font-size: 1rem;
+      background: transparent;
+      padding: 0.2rem;
+    }
+  }
+}

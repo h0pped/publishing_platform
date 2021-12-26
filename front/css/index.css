@@ -169,7 +169,8 @@ a:hover.active::after {
 .form .input-container label {
   margin: 0 0 0.3rem 0.5rem;
 }
-.form .input-container input {
+.form .input-container input,
+.form .input-container select {
   background: #f4f4f4;
   border: 1px solid #191919;
   font-size: 1rem;
