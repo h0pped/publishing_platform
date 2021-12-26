@@ -1,7 +1,10 @@
 .title {
   margin: 3rem 0 1rem;
 }
+.container {
+  position: relative;
+}
 img {
-  position: fixed;
-  top: 70%;
+  position: absolute;
+  top: 110%;
 }
