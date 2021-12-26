@@ -1,4 +1,5 @@
 const countrySelect = document.querySelector("#country-input");
+const genderSelect = document.querySelector("#gender-input");
 const cityList = document.querySelector("#cityname");
 const cityInput = document.querySelector("#city-input");
 const SERVER_URL = "http://127.0.0.1:3000";
@@ -29,6 +30,18 @@ const loadCities = (countryID) => {
       });
     });
 };
+const loadGenders = () => {
+  fetch(`${SERVER_URL}/genders/all`)
+    .then((data) => data.json())
+    .then((data) => {
+      data.forEach((city) => {
+        let genderOption = document.createElement("option");
+        genderOption.setAttribute("value", gender.ID);
+        genderOption.innerHTML = city.title;
+        genderSelect.appendChild(genderOption);
+      });
+    });
+};
 
 countrySelect.addEventListener("change", (e) => {
   console.log(e.target.value);
@@ -37,3 +50,4 @@ countrySelect.addEventListener("change", (e) => {
 });
 
 loadCountries();
+loadGenders();

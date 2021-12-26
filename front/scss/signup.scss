@@ -3,6 +3,7 @@
 
 .container {
   max-width: 1000px;
+  min-height: 100vh;
 }
 form {
   display: grid;
@@ -12,7 +13,8 @@ form {
     "photo email password"
     "photo country city"
     "gender street postal"
-    "description description description";
+    "description description description"
+    "submit submit submit";
   gap: 2rem;
   .input-container-grid {
     display: flex;
@@ -73,4 +75,18 @@ form {
       padding: 0.2rem;
     }
   }
+  .submit-container {
+    grid-area: submit;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    button {
+      max-width: 30%;
+      margin-bottom: 1rem;
+    }
+  }
+}
+img {
+  position: static;
+  top: 110%;
 }

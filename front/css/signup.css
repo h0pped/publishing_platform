@@ -16,11 +16,12 @@
 
 .container {
   max-width: 1000px;
+  min-height: 100vh;
 }
 
 form {
   display: grid;
-  grid-template-areas: "photo name surname" "photo email password" "photo country city" "gender street postal" "description description description";
+  grid-template-areas: "photo name surname" "photo email password" "photo country city" "gender street postal" "description description description" "submit submit submit";
   gap: 2rem;
   width: 100%;
 }
@@ -80,6 +81,21 @@ form #description textarea {
   font-size: 1rem;
   background: transparent;
   padding: 0.2rem;
+}
+form .submit-container {
+  grid-area: submit;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+form .submit-container button {
+  max-width: 30%;
+  margin-bottom: 1rem;
+}
+
+img {
+  position: static;
+  top: 110%;
 }
 
 /*# sourceMappingURL=signup.css.map */
