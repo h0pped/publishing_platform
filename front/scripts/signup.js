@@ -23,7 +23,10 @@ const loadCountries = () => {
 
 const loadCities = (countryID) => {
   fetch(`${SERVER_URL}/cities/byCountryID/${countryID}`)
-    .then((data) => data.json())
+    .then((data) => {
+      console.log(data);
+      return data.json();
+    })
     .then((data) => {
       cityList.innerHTML = "";
 
@@ -32,7 +35,8 @@ const loadCities = (countryID) => {
         cityOption.setAttribute("value", city.title);
         cityList.appendChild(cityOption);
       });
-    });
+    })
+    .catch((err) => console.log(err));
 };
 const loadGenders = () => {
   fetch(`${SERVER_URL}/genders/all`)
@@ -82,7 +86,22 @@ signUpForm.addEventListener("submit", async (e) => {
     postalCode: inputs["postal-input"].value,
     description: inputs["description-input"].value,
   };
-  console.log(user);
+  fetch(`${SERVER_URL}/users/signup`, {
+    headers: {
+      "Content-type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(user),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      window.sessionStorage.setItem(
+        "user",
+        JSON.stringify({ email: data.email, password: data.password })
+      );
+      window.location.replace("/profile");
+    })
+    .catch((err) => console.error(err));
 });
 imageInput.addEventListener("change", (e) => {
   imagePreview.src = URL.createObjectURL(e.target.files[0]);
