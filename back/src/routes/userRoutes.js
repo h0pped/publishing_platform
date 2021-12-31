@@ -3,6 +3,8 @@ const router = express.Router();
 
 import { connection } from "../db/connection.js";
 import * as userQueries from "../db/queries/userQueries.js";
+import fs from "fs";
+import chalk from "chalk";
 
 import bcrypt from "bcryptjs";
 router.post("/users/findByCredentials", (req, res) => {
@@ -25,10 +27,22 @@ router.post("/users/findByCredentials", (req, res) => {
       }
     }
   );
-
-  //   connection.query(articleQueries.getRecentArticles(), (err, dbres, fields) => {
-  //     res.send(dbres);
-  //   });
 });
 
+router.post("/users/signup", (req, res) => {
+  const user = req.body;
+  if (user.avatar) {
+    let regex = /^data:.+\/(.+);base64,(.*)$/;
+
+    let matches = user.avatar.match(regex);
+    let ext = matches[1];
+    let data = matches[2];
+    let buffer = Buffer.from(data, "base64");
+    fs.writeFileSync(
+      `./public/user_photos/${user.email}_avatar.` + ext,
+      buffer
+    );
+  }
+  res.send(user);
+});
 export default router;

@@ -3,11 +3,13 @@ import chalk from "chalk";
 import conutil from "./util/consoleutil.js";
 import cors from "cors";
 import path from "path";
+import bodyParser from "body-parser";
 
 const app = express();
 app.use(cors());
 
 const __dirname = path.resolve();
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/static", express.static(__dirname + "/public"));
 
 const port = process.env.PORT || 3000;
@@ -29,6 +31,7 @@ app.use(userRoutes);
 app.use(countryRoutes);
 app.use(cityRoutes);
 app.use(genderRoutes);
+
 app.get("/", (req, res) => {
   connection.query(getAllUsers(), (err, dbres, fields) => {
     res.send(dbres);
