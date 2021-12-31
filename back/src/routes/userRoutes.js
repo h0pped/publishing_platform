@@ -33,13 +33,12 @@ router.post("/users/signup", (req, res) => {
   const user = req.body;
   if (user.avatar) {
     let regex = /^data:.+\/(.+);base64,(.*)$/;
-
     let matches = user.avatar.match(regex);
     let ext = matches[1];
     let data = matches[2];
     let buffer = Buffer.from(data, "base64");
     fs.writeFileSync(
-      `./public/user_photos/${user.email}_avatar.` + ext,
+      `./public/profile_pics/${user.email}_avatar.` + ext,
       buffer
     );
   }
