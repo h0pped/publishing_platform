@@ -18,3 +18,14 @@ export const insertNewUser = (
   (Select id from UserRole where title="Default"),
   ${user.genderID}
   )`;
+
+export const getFollowersFollowing = (email) => `Select 
+Count(IF(following_id=(select id from user where email="${email}"),1,null)) as "Followers",
+Count(IF(user_id=(select id from user where email="${email}"),1,null)) as "Following"
+from Following;`;
+
+export const getSocialMediaLinks = (
+  email
+) => `Select Link.title,Link.link, User.email from SocialMediaLink as Link
+inner join user on user.id = Link.user_id
+where user.email = "${email}";`;

@@ -160,4 +160,50 @@ router.post("/users/signup", (req, res) => {
     }
   );
 });
+
+router.get("/users/byEmail/:email", (req, res) => {
+  console.log(req.params.email);
+  if (req.params.email) {
+    connection.query(
+      userQueries.findByEmail(req.params.email),
+      (err, dbres, fields) => {
+        if (err === null) {
+          let user = dbres[0];
+          if (!user) {
+            return res.status(404).send({ err: "User was not fount" });
+          }
+          //get followers/following count
+          connection.query(
+            userQueries.getFollowersFollowing(user.email),
+            (follerr, folldbres, follfields) => {
+              if (follerr === null) {
+                user = {
+                  ...user,
+                  followers: folldbres[0].Followers,
+                  following: folldbres[0].Following,
+                };
+
+                // get socialmedialinks
+                connection.query(
+                  userQueries.getSocialMediaLinks(user.email),
+                  (lerr, lres, lfields) => {
+                    if (lerr === null) {
+                      user.socials = lres.map((el) => {
+                        return {
+                          title: el.title,
+                          link: el.link,
+                        };
+                      });
+                      return res.status(200).send(user);
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+});
 export default router;
