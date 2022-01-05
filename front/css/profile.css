@@ -51,6 +51,7 @@
 .profile-data .profile-name {
   display: flex;
   justify-content: space-between;
+  margin-right: 0.3rem;
 }
 .profile-data .profile-name a {
   width: 40%;
@@ -86,7 +87,7 @@
   margin-right: 5rem;
 }
 .profile-articles {
-  margin-top: 2rem;
+  margin-top: 4rem;
   display: flex;
   width: 100%;
   justify-content: space-between;
