@@ -3,6 +3,10 @@ const emailInput = document.querySelector("#email-input");
 const passwordInput = document.querySelector("#password-input");
 const SERVER_URL = "http://127.0.0.1:3000";
 
+if (window.sessionStorage["user"]) {
+  window.location.replace("/profile");
+}
+
 signInButton.addEventListener("click", (e) => {
   e.preventDefault();
   const data = {

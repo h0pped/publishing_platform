@@ -6,8 +6,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <script src="../scripts/profile.js"></script>
+
+    <!-- styles -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
   </head>
   <body>
-    profile
+    <nav class="navbar">
+      <a href="#" class="logo">Logo</a>
+      <ul>
+        <li>
+          <a href="../">Main</a>
+        </li>
+        <li>
+          <a href="#">Browse</a>
+        </li>
+        <li>
+          <a href="#">FAQ</a>
+        </li>
+        <li>
+          <a href="#" class="active">Account</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <h1 class="title">Profile</h1>
+      <div class="profile">
+        <div class="profile-buttons">
+          <!-- MY ACCOUNT -->
+          <a class="button-link" href="/notifications">Notifications</a>
+          <a class="button-link" href="/photos">Photos</a>
+          <a class="button-link" href="/questions">Questions</a>
+
+          <!-- ONLY IF ADMIN
+          <a class="button-link" href="/addcategory">Add FAQ</a>
+          <a class="button-link" href="/addcategory">Add Category</a>
+          <a class="button-link" href="edit">Edit Profile</a> -->
+        </div>
+        <div class="profile-info">
+          <div class="profile-photo">
+            <img src="" alt="img" />
+          </div>
+          <div class="profile-data">
+            <div class="profile-name">
+              <div class="name-location">
+                <h2 class="name-surname">Nykonchuk Illia</h2>
+                <p class="location">Ukraine, Rivne</p>
+              </div>
+              <a class="button-link" href="/questions">Edit profile</a>
+            </div>
+            <div class="profile-followers">
+              <p>
+                Followers:
+                <span
+                  ><a class="followers-link" href="/followers/id">89</a></span
+                >
+              </p>
+              <p>
+                Following:
+                <span
+                  ><a class="followers-link" href="/following/id">44</a></span
+                >
+              </p>
+            </div>
+            <div class="profile-description">
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book.
+              </p>
+            </div>
+            <div class="profile-links">
+              <a class="dark" href="#">My Youtube</a>
+              <a class="dark" href="#">Personal Website</a>
+              <a class="dark" href="#">Telegram</a>
+            </div>
+          </div>
+        </div>
+        <div class="profile-articles">
+          <h2>Recent Articles</h2>
+          <div class="search">
+            <input
+              type="text"
+              name="search"
+              id="articles-search-input"
+              placeholder="Search..."
+            />
+            <select name="search-select" id="articles-search-select">
+              <option value="title">By Title</option>
+              <option value="tag">By Tag</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

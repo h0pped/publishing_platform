@@ -1,3 +1,7 @@
+if (window.sessionStorage["user"]) {
+  window.location.replace("/profile");
+}
+
 const countrySelect = document.querySelector("#country-input");
 const genderSelect = document.querySelector("#gender-input");
 const cityList = document.querySelector("#cityname");
