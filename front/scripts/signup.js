@@ -76,9 +76,12 @@ function getBase64(file) {
 signUpForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   console.log("processing...");
-  const img = await getBase64(inputs["image-input"].files[0]);
+  console.log();
+  let img;
+  if (inputs["image-input"].files[0]) {
+    img = await getBase64(inputs["image-input"].files[0]);
+  }
   const user = {
-    avatar: img,
     name: inputs["name-input"].value,
     surname: inputs["surname-input"].value,
     email: inputs["email-input"].value,
@@ -90,6 +93,9 @@ signUpForm.addEventListener("submit", async (e) => {
     postalCode: inputs["postal-input"].value,
     description: inputs["description-input"].value,
   };
+  if (img) {
+    user.avatar = img;
+  }
   fetch(`${SERVER_URL}/users/signup`, {
     headers: {
       "Content-type": "application/json",

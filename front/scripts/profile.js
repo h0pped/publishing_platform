@@ -22,6 +22,7 @@ if (id != null) {
   }
 }
 let userData;
+let userArticles;
 
 function getProfileDataByEmail(email) {
   fetch(`${URL}/users/byEmail/${email}`)
@@ -31,8 +32,9 @@ function getProfileDataByEmail(email) {
         userData = uData;
         fetch(`${URL}/articles/byUser/${email}`)
           .then((data) => data.json())
-          .then((data) => {
-            console.log(data);
+          .then((articles) => {
+            userArticles = articles.articles;
+
             renderUI(userData);
           });
       }
@@ -44,14 +46,21 @@ function getProfileDataByID(id) {
     .then((res) => res.json())
     .then((data) => {
       if (data) {
-        renderUI(data);
+        userData = data;
+        fetch(`${URL}/articles/byUser/${userData.email}`)
+          .then((data) => data.json())
+          .then((articles) => {
+            userArticles = articles.articles;
+            renderUI(userData);
+          });
       }
     })
     .catch((err) => console.log(err));
 }
 
 function renderUI(user) {
-  console.log(user);
+  console.log(userData);
+  console.log(userArticles);
   if (id === null) {
     // my page
     // render buttons
@@ -112,4 +121,22 @@ function renderUI(user) {
   });
 
   // RENDER ARTICLES
+  const articlesContainer = document.querySelector(".articles");
+  userArticles.forEach((article) => {
+    let articleContainer = `<div class="article">`;
+    articleContainer += `<div class="article-photo">
+    <img src="${URL}/static/article_thumbnails/${article.thumbnail_path}" alt="article_thumbnail" />
+    </div>`;
+    articleContainer += `<div class="article-information">`;
+    articleContainer += `<h3>${article.title}</h3>
+  <p>
+    ${article.description}
+  </p>`;
+    articleContainer += `<div class="article-tags">`;
+    article.tags.forEach((tag) => {
+      articleContainer += `<a href="/articles/byTag/?tag=${tag.Tag}" class="tag">${tag.Tag}</a>`;
+    });
+    articleContainer += `</div></div></div>`;
+    articlesContainer.innerHTML += articleContainer;
+  });
 }
