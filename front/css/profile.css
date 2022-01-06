@@ -87,26 +87,66 @@
   margin-right: 5rem;
 }
 .profile-articles {
-  margin-top: 4rem;
+  margin: 4rem 2rem;
   display: flex;
   width: 100%;
+  flex-direction: column;
   justify-content: space-between;
 }
-.profile-articles .search {
-  width: 35%;
-  display: flex;
+.profile-articles .search-container {
+  text-align: center;
 }
-.profile-articles .search input {
+.profile-articles .search-container h2 {
+  margin-bottom: 2rem;
+}
+.profile-articles .search-container .search {
+  display: flex;
+  justify-content: center;
+}
+.profile-articles .search-container .search input {
   padding: 0.5rem 0.5rem;
   border: 1px solid #191919;
   width: 80%;
   margin-right: 2rem;
 }
-.profile-articles .search input:focus {
+.profile-articles .search-container .search input:focus {
   outline: none;
 }
-.profile-articles .search select {
+.profile-articles .search-container .search select {
   padding: 0.5rem 0.5rem;
+}
+.profile-articles .article {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid black;
+  margin: 2rem 0;
+  max-height: 180px;
+  height: 180px;
+}
+.profile-articles .article .article-photo {
+  border: 1px solid black;
+  width: 30%;
+  aspect-ratio: 16/9;
+  margin-right: 2rem;
+}
+.profile-articles .article .article-information {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.profile-articles .article .article-information h3 {
+  margin-bottom: 1rem;
+}
+.profile-articles .article .article-information .article-tags {
+  margin-bottom: 1rem;
+}
+.profile-articles .article .article-information .article-tags .tag {
+  color: #ffd900;
+  background-color: #191919;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.3rem;
+  border-radius: 3rem;
 }
 
 /*# sourceMappingURL=profile.css.map */

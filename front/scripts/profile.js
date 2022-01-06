@@ -21,13 +21,20 @@ if (id != null) {
     window.location.replace("/login");
   }
 }
+let userData;
 
 function getProfileDataByEmail(email) {
   fetch(`${URL}/users/byEmail/${email}`)
     .then((res) => res.json())
-    .then((data) => {
-      if (data) {
-        renderUI(data);
+    .then((uData) => {
+      if (uData) {
+        userData = uData;
+        fetch(`${URL}/articles/byUser/${email}`)
+          .then((data) => data.json())
+          .then((data) => {
+            console.log(data);
+            renderUI(userData);
+          });
       }
     })
     .catch((err) => console.log(err));
@@ -77,6 +84,7 @@ function renderUI(user) {
     profileNameContainer.innerHTML += ` <a class="button-link" href="/questions">Edit profile</a>`;
   }
   if (id !== null) {
+    //   TODO: check if following
     profileNameContainer.innerHTML += ` <a class="button-link" href="/follow">Follow/Unfollow</a>`;
   }
 
@@ -102,4 +110,6 @@ function renderUI(user) {
       <a class="dark" href="${el.link}">${el.title}</a>
       `;
   });
+
+  // RENDER ARTICLES
 }
