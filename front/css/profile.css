@@ -122,6 +122,7 @@
   margin: 2rem 0;
   max-height: 180px;
   height: 200px;
+  cursor: pointer;
 }
 .profile-articles .article .article-photo {
   width: 30%;

@@ -1,0 +1,112 @@
+.title {
+  font-size: 3rem;
+  line-height: 5rem;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  position: relative;
+}
+
+.article {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.article .article-main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.article .article-main .article-title {
+  text-align: center;
+  margin: 0 0 2rem 0;
+}
+.article .article-main img {
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  width: 70%;
+}
+.article .article-main .article-description {
+  margin: 2rem 0 0rem;
+}
+.article .article-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.article .article-section h2 {
+  margin-top: 2rem;
+}
+.article .article-section .section-gallery {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.article .article-section .section-gallery .gallery {
+  position: relative;
+}
+.article .article-section .section-gallery .gallery .prev {
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  border: 1px solid #191919;
+  background-color: #ffd900;
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+.article .article-section .section-gallery .gallery .next {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  position: absolute;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  border: 1px solid #191919;
+  background-color: #ffd900;
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+.article .article-section .section-gallery .gallery .gallery-images {
+  position: relative;
+  display: flex;
+  width: 700px;
+  margin: auto;
+  overflow: hidden;
+  align-items: center;
+}
+.article .article-section .section-gallery .gallery .gallery-images .image {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.article .article-section .section-gallery .gallery .gallery-images .image img {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  width: 100%;
+}
+.article .article-section .section-text {
+  margin-top: 2rem;
+}
+.article .article-data {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+.article .article-data p a {
+  color: #ffd900;
+}
+
+/*# sourceMappingURL=article.css.map */

@@ -1,0 +1,104 @@
+@use "util/colors";
+@use "util/typography";
+
+.article {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  .article {
+    &-main {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      .article-title {
+        text-align: center;
+        margin: 0 0 2rem 0;
+      }
+      img {
+        object-fit: cover;
+        aspect-ratio: 16/9;
+        width: 70%;
+      }
+      .article-description {
+        margin: 2rem 0 0rem;
+      }
+    }
+    &-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      h2 {
+        margin-top: 2rem;
+      }
+
+      .section-gallery {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .gallery {
+          position: relative;
+          .prev {
+            z-index: 999;
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            padding: 0.5rem 1rem;
+            border-radius: 0.2rem;
+            border: 1px solid colors.$base-dark;
+            background-color: colors.$yellow;
+            transform: translate(0, -50%);
+            cursor: pointer;
+          }
+          .next {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            position: absolute;
+            padding: 0.5rem 1rem;
+            border-radius: 0.2rem;
+            border: 1px solid colors.$base-dark;
+            background-color: colors.$yellow;
+            transform: translate(0, -50%);
+            cursor: pointer;
+          }
+          .gallery-images {
+            position: relative;
+            display: flex;
+            width: 700px;
+            margin: auto;
+            overflow: hidden;
+            align-items: center;
+
+            .image {
+              min-width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              img {
+                aspect-ratio: 16/9;
+                object-fit: cover;
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+
+      .section-text {
+        margin-top: 2rem;
+      }
+    }
+    &-data {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-around;
+      p {
+        a {
+          color: colors.$yellow;
+        }
+      }
+    }
+  }
+}

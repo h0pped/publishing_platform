@@ -122,8 +122,9 @@ function renderUI(user) {
 
   // RENDER ARTICLES
   const articlesContainer = document.querySelector(".articles");
+  console.log("CONTAINER", articlesContainer);
   userArticles.forEach((article) => {
-    let articleContainer = `<div class="article">`;
+    let articleContainer = `<div class="article" data-id="${article.ID}">`;
     articleContainer += `<div class="article-photo">
     <img src="${URL}/static/article_thumbnails/${article.thumbnail_path}" alt="article_thumbnail" />
     </div>`;
@@ -138,5 +139,12 @@ function renderUI(user) {
     });
     articleContainer += `</div></div></div>`;
     articlesContainer.innerHTML += articleContainer;
+  });
+  articlesContainer.addEventListener("click", (e) => {
+    let article = e.target.closest(".article");
+    if (article) {
+      console.log(article.dataset.id);
+      window.location.replace("/article/?id=" + article.dataset.id);
+    }
   });
 }
