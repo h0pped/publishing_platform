@@ -1,8 +1,8 @@
 export const getByCountryID = (countryID) =>
-  `Select * from city where country_id=${countryID};`;
+  `Select * from City where country_id=${countryID};`;
 
 export const getByCountryAndTitle = (countryID, title) =>
-  `Select * from city where country_id=${countryID} and title="${title}" LIMIT 1;`;
+  `Select * from City where country_id=${countryID} and title="${title}" LIMIT 1;`;
 
 export const insertCity = (
   countryID,

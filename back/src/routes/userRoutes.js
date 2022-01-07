@@ -10,6 +10,7 @@ import chalk from "chalk";
 
 import bcrypt from "bcryptjs";
 router.post("/users/findByCredentials", (req, res) => {
+  console.log("QUERY");
   connection.query(
     userQueries.findByEmail(req.body.email),
     (err, dbres, fields) => {
@@ -26,6 +27,8 @@ router.post("/users/findByCredentials", (req, res) => {
             })
             .catch((err) => res.status(400).send({ err }));
         }
+      } else {
+        console.log(err);
       }
     }
   );
@@ -162,7 +165,6 @@ router.post("/users/signup", (req, res) => {
 });
 
 router.get("/users/byEmail/:email", (req, res) => {
-  console.log(req.params.email);
   if (req.params.email) {
     connection.query(
       userQueries.findByEmail(req.params.email),
@@ -170,7 +172,7 @@ router.get("/users/byEmail/:email", (req, res) => {
         if (err === null) {
           let user = dbres[0];
           if (!user) {
-            return res.status(404).send({ err: "User was not fount" });
+            return res.status(404).send({ err: "User was not found" });
           }
           //get followers/following count
           connection.query(
@@ -194,10 +196,15 @@ router.get("/users/byEmail/:email", (req, res) => {
                           link: el.link,
                         };
                       });
+
                       return res.status(200).send(user);
+                    } else {
+                      console.log(lerr);
                     }
                   }
                 );
+              } else {
+                console.log(follerr);
               }
             }
           );

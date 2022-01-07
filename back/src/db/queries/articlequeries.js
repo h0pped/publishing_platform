@@ -2,7 +2,7 @@ export const getRecentArticles = () =>
   'Select * from Article where status_id=(select id from ArticleStatus where title="Active") order by postDate DESC LIMIT 9;';
 
 export const getUserArticles = (email) =>
-  `Select * from Article where user_id=(select id from user where email="${email}") and status_id=(select id from ArticleStatus where title="Active") order by postDate DESC;`;
+  `Select * from Article where user_id=(select id from User where email="${email}") and status_id=(select id from ArticleStatus where title="Active") order by postDate DESC;`;
 
 export const getArticleCategory = (
   articleId
