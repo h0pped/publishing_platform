@@ -13,3 +13,23 @@ export const getArticleTags = (articleId) => `
 Select tag.id as "tag_id",tag.title as "Tag" from Article_Tag a_t
 inner join Tag as tag on a_t.tag_id=tag.id
 where article_id=${articleId};`;
+
+export const getArticleByID = (articleID) => `
+  Select * from Article where 
+  ID=${articleID} and 
+status_id=(select id from ArticleStatus where title="Active")
+  LIMIT 1;
+`;
+export const getArticleSectionsByID = (articleID) => `
+Select * from ArticleSection where article_id=${articleID} Order By \`order\` ASC;
+`;
+
+export const getSectionGallery = (sectionID) => `
+  Select * from SectionGallery where section_id=${sectionID} LIMIT 1;
+`;
+
+export const getGalleryPhotos = (galleryID) => `
+Select sgp.id, sgp.photo_id, p.filepath,sgp.title,sgp.alt_text,sgp.source from SectionGallery_Photo sgp
+inner join Photo p on sgp.photo_id = p.id
+where sgp.gallery_id=${galleryID};
+`;

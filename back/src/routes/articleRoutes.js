@@ -36,6 +36,58 @@ const getArticleTags = (articleId) => {
     );
   });
 };
+const getArticle = (articleID) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      articleQueries.getArticleByID(articleID),
+      (err, rows, fields) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows[0]);
+      }
+    );
+  });
+};
+const getArticleSections = (articleID) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      articleQueries.getArticleSectionsByID(articleID),
+      (err, rows, fields) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      }
+    );
+  });
+};
+const getSectionGallery = (sectionID) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      articleQueries.getSectionGallery(sectionID),
+      (err, rows, fields) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      }
+    );
+  });
+};
+const getGalleryImages = (galleryID) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      articleQueries.getGalleryPhotos(galleryID),
+      (err, rows, fields) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      }
+    );
+  });
+};
 const getUserArticles = (email) => {
   return new Promise((resolve, reject) => {
     connection.query(
@@ -49,6 +101,7 @@ const getUserArticles = (email) => {
     );
   });
 };
+
 router.get("/articles/byUser/:email", (req, res) => {
   let { email } = req.params;
   getUserArticles(email)
@@ -59,7 +112,6 @@ router.get("/articles/byUser/:email", (req, res) => {
           return getArticleCategory(item.ID);
         })
       ).then((data) => {
-        console.log(data);
         articles = articles.map((el, index) => {
           el.category = data[index];
           return el;
@@ -80,5 +132,53 @@ router.get("/articles/byUser/:email", (req, res) => {
       });
     })
     .catch((err) => res.status(500).send({ err }));
+});
+router.get("/articles/byID/:id", (req, res) => {
+  let { id } = req.params;
+  let article;
+  getArticle(id)
+    .then((data) => {
+      if (data) {
+        article = data;
+        return getArticleCategory(id);
+      }
+    })
+    .then((category) => {
+      article.category = category;
+      return getArticleTags(id);
+    })
+    .then((tags) => {
+      article.tags = tags;
+      return getArticleSections(id);
+    })
+    .then((sections) => {
+      article.sections = sections;
+      return Promise.all(
+        article.sections.map((section) => {
+          return getSectionGallery(section.ID);
+        })
+      );
+    })
+    .then((galleries) => {
+      article.sections = article.sections.map((section, index) => {
+        return { ...section, gallery: galleries[index][0] };
+      });
+      return Promise.all(
+        article.sections.map((section) => {
+          return getGalleryImages(section.gallery.ID);
+        })
+      );
+    })
+    .then((photos) => {
+      article.sections = article.sections.map((section, index) => {
+        section.gallery.photos = photos[index];
+        return section;
+      });
+      res.send(article);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ err: err.message });
+    });
 });
 export default router;
