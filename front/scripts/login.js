@@ -28,11 +28,14 @@ signInButton.addEventListener("click", (e) => {
         throw "Invalid Data";
       })
       .then((data) => {
-        window.sessionStorage.setItem(
-          "user",
-          JSON.stringify({ email: data.email, password: data.password })
-        );
-        window.location.replace("/profile");
+        console.log(data);
+        if (data) {
+          window.sessionStorage.setItem(
+            "user",
+            JSON.stringify({ email: data.email, password: data.password })
+          );
+          window.location.replace("/profile");
+        }
       })
       .catch((err) => console.error(err));
   }

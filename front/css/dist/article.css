@@ -19,23 +19,28 @@
   display: flex;
   flex-direction: column;
 }
+
 .article .article-main {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
+
 .article .article-main .article-title {
   text-align: center;
   margin: 0 0 2rem 0;
 }
+
 .article .article-main img {
   object-fit: cover;
   aspect-ratio: 16/9;
   width: 70%;
 }
+
 .article .article-main .article-description {
   margin: 2rem 0 2rem;
 }
+
 .article .article-section {
   display: flex;
   flex-direction: column;
@@ -43,9 +48,11 @@
   width: 100%;
   margin: 2rem 0;
 }
+
 .article .article-section h2 {
   margin-top: 2rem;
 }
+
 .article .article-section .section-gallery {
   display: flex;
   justify-content: center;
@@ -54,10 +61,12 @@
   margin: 1rem 0;
   text-align: center;
 }
+
 .article .article-section .section-gallery .gallery {
   position: relative;
   transition: all 0.5s ease;
 }
+
 .article .article-section .section-gallery .gallery .prev {
   z-index: 2;
   position: absolute;
@@ -71,6 +80,7 @@
   transform: translate(0, -50%);
   cursor: pointer;
 }
+
 .article .article-section .section-gallery .gallery .next {
   position: absolute;
   top: 50%;
@@ -83,6 +93,7 @@
   transform: translate(0, -50%);
   cursor: pointer;
 }
+
 .article .article-section .section-gallery .gallery .gallery-images {
   transition: all 0.5s ease;
   position: relative;
@@ -92,6 +103,7 @@
   overflow: hidden;
   align-items: center;
 }
+
 .article .article-section .section-gallery .gallery .gallery-images .image {
   min-width: 100%;
   display: flex;
@@ -100,26 +112,32 @@
   flex-direction: column;
   transition: all 0.5s ease;
 }
+
 .article .article-section .section-gallery .gallery .gallery-images .image h4 {
   text-align: center;
 }
+
 .article .article-section .section-gallery .gallery .gallery-images .image img {
   width: 100%;
   aspect-ratio: 16/10;
   object-fit: contain;
   max-height: 400px;
 }
+
 .article .article-section .section-content p {
   margin-bottom: 0.25rem;
 }
+
 .article .article-section .section-content a {
   color: #ffd900;
 }
+
 .article .article-data {
   margin-top: 2rem;
   display: flex;
   justify-content: space-around;
 }
+
 .article .article-data p a {
   color: #ffd900;
 }

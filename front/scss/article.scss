@@ -44,14 +44,15 @@
           position: relative;
           transition: all 0.5s ease;
           .prev {
-            z-index: 999;
+            z-index: 2;
             position: absolute;
             top: 50%;
-            left: 0%;
+            left: 0;
+            position: absolute;
             padding: 0.5rem 1rem;
             border-radius: 0.2rem;
-            border: 1px solid colors.$base-dark;
-            background-color: colors.$yellow;
+            border: 1px solid #191919;
+            background-color: #ffd900;
             transform: translate(0, -50%);
             cursor: pointer;
           }

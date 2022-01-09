@@ -21,6 +21,10 @@ fetch(`${URL}/articles/byID/${id}`)
     renderError(err);
   });
 
+let currentIndex = [];
+let translateX = [];
+let galleries = [];
+
 const renderUI = (article) => {
   console.log("render", article);
   const container = document.querySelector(".container");
@@ -40,11 +44,14 @@ const renderUI = (article) => {
       </p>
         `;
   articleContainer += "</div>";
-  article.sections.forEach((section) => {
+  article.sections.forEach((section, index) => {
+    galleries.push(section.gallery.photos);
+    currentIndex.push(0);
+    translateX.push(0);
     articleContainer += `<div class="article-section">`;
     articleContainer += `<h2>${section.title}</h2>`;
     articleContainer += `<div class="section-gallery">`;
-    articleContainer += `<div class="gallery">`;
+    articleContainer += `<div class="gallery" data-index=${index}>`;
     articleContainer += `<button class="prev"><</button>`;
     articleContainer += `Gallery: ${section.gallery.title}`;
     articleContainer += `<div class="gallery-images">`;
@@ -67,10 +74,28 @@ const renderUI = (article) => {
   });
   articleContainer += "</div>";
   container.innerHTML += articleContainer;
+  let articleGalleries = container.querySelectorAll(".gallery");
+  console.log("GALLERIES", articleGalleries);
+  articleGalleries.forEach((gallery) => {
+    gallery.addEventListener("click", (e) => {
+      const prev = e.target.closest(".prev");
+      const next = e.target.closest(".next");
+      if (prev) {
+        console.log(galleries[gallery.dataset.index]);
+        console.log(currentIndex[gallery.dataset.index]);
+        console.log(translateX[gallery.dataset.index]);
+        console.log("PREV");
+      }
+      if (next) {
+        console.log("NEXT");
+      }
+    });
+  });
 };
 const renderError = (error) => {
   console.log(error);
 };
+
 // const prevButton = document.querySelector(".prev");
 // const nextButton = document.querySelector(".next");
 // const imagesGallery = document.querySelector(".gallery-images");

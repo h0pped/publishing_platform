@@ -29,6 +29,7 @@ function getProfileDataByEmail(email) {
     .then((res) => res.json())
     .then((uData) => {
       if (uData) {
+        console.log(uData);
         userData = uData;
         fetch(`${URL}/articles/byUser/${email}`)
           .then((data) => data.json())
