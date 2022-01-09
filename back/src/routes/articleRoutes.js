@@ -51,9 +51,11 @@ const getArticle = (articleID) => {
       articleQueries.getArticleByID(articleID),
       (err, rows, fields) => {
         if (err) {
+          console.log(err);
           reject(err);
-          connection.destroy();
+          return connection.destroy();
         }
+        console.log(rows);
         resolve(rows[0]);
         connection.destroy();
       }
