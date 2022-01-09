@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-import { connection } from "./db/connection.js";
+import * as connectionRequest from "./db/connection.js";
 import { getAllUsers } from "./db/queries/userqueries.js";
 
 //routes
@@ -33,6 +33,7 @@ app.use(cityRoutes);
 app.use(genderRoutes);
 
 app.get("/", (req, res) => {
+  let connection = connectionRequest.connectionRequest();
   connection.query(getAllUsers(), (err, dbres, fields) => {
     res.send(dbres);
   });

@@ -1,17 +1,21 @@
 import mysql from "mysql2";
-import chalk from "chalk";
+export const connectionRequest = () => {
+  let connection = mysql.createConnection({
+    host: process.env.LOCALDB_HOST,
+    port: process.env.LOCALDB_PORT,
+    user: process.env.LOCALDB_USER,
+    database: process.env.LOCALDB_NAME,
+    password: process.env.LOCALDB_PASSWORD,
+  });
+  //Instantiate the connection
+  connection.connect(function (err) {
+    if (err) {
+      console.log(`connectionRequest Failed ${err.stack}`);
+    } else {
+      console.log(`DB connectionRequest Successful ${connection.threadId}`);
+    }
+  });
 
-export const connection = mysql.createConnection({
-  host: process.env.LOCALDB_HOST,
-  port: process.env.LOCALDB_PORT,
-  user: process.env.LOCALDB_USER,
-  database: process.env.LOCALDB_NAME,
-  password: process.env.LOCALDB_PASSWORD,
-});
-connection.connect(function (err) {
-  if (err) {
-    return console.error(chalk.red.bold("Error: " + err.message));
-  } else {
-    console.log(chalk.green.bold("Succcesfull connection to db!"));
-  }
-});
+  //return connection object
+  return connection;
+};

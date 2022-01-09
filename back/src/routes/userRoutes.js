@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { connection } from "../db/connection.js";
+import * as connectionRequest from "../db/connection.js";
 import * as userQueries from "../db/queries/userQueries.js";
 import * as cityQueries from "../db/queries/cityQueries.js";
 import * as locationQueries from "../db/queries/locationQueries.js";
@@ -11,6 +11,7 @@ import chalk from "chalk";
 import bcrypt from "bcryptjs";
 router.post("/users/findByCredentials", (req, res) => {
   console.log("QUERY");
+  let connection = connectionRequest.connectionRequest();
   connection.query(
     userQueries.findByEmail(req.body.email),
     (err, dbres, fields) => {
@@ -18,24 +19,30 @@ router.post("/users/findByCredentials", (req, res) => {
         const user = dbres[0];
         if (!user) {
           res.send({ err: "Invalid Credentials" });
+          connection.destroy();
         } else {
           bcrypt
             .compare(req.body.password, user.password)
             .then((passres) => {
-              if (passres) res.send(user);
-              else throw "Invalid Credentials";
+              if (passres) {
+                res.send(user);
+                connection.destroy();
+              } else throw "Invalid Credentials";
             })
-            .catch((err) => res.status(400).send({ err }));
+            .catch((err) => {
+              res.status(400).send({ err });
+              connection.destroy();
+            });
         }
       } else {
         console.log(err);
+        connection.destroy();
       }
     }
   );
 });
 
 router.post("/users/signup", (req, res) => {
-  console.log("aaa");
   const user = req.body;
   let regex;
   let matches;
@@ -58,8 +65,7 @@ router.post("/users/signup", (req, res) => {
       console.log(err);
     }
   }
-  console.log("avatar added");
-
+  let connection = connectionRequest.connectionRequest();
   connection.query(
     //check if city exists in db
     cityQueries.getByCountryAndTitle(user.countryID, user.city),
@@ -100,15 +106,18 @@ router.post("/users/signup", (req, res) => {
                         locationQueries.insertNewLocation(userlocation),
                         (locationerr, locationdbres, locationfields) => {
                           if (locationerr === null) {
-                            return res.status(201).send(user);
+                            res.status(201).send(user);
+                            return connection.destroy();
                           } else {
                             console.log(locationerr);
-                            return res.send({ err: locationerr });
+                            res.send({ err: locationerr });
+                            return connection.destroy();
                           }
                         }
                       );
                     } else {
-                      return res.status(400).send({ err: usererr.sqlMessage });
+                      res.status(400).send({ err: usererr.sqlMessage });
+                      return connection.destroy();
                     }
                   }
                 );
@@ -143,17 +152,22 @@ router.post("/users/signup", (req, res) => {
                   locationQueries.insertNewLocation(userlocation),
                   (locationerr, locationdbres, locationfields) => {
                     if (locationerr === null) {
-                      return res.status(201).send(user);
+                      res.status(201).send(user);
+                      return connection.destroy();
                     } else {
                       console.log(locationerr);
-                      return res.send({ err: locationerr });
+                      res.send({ err: locationerr });
+                      return connection.destroy();
                     }
                   }
                 );
               } else {
                 console.log("err");
-                return res.status(400).send({ err: usererr.sqlMessage });
+
+                res.status(400).send({ err: usererr.sqlMessage });
+                return connection.destroy();
               }
+              connection.destroy();
             }
           );
         }
@@ -162,101 +176,132 @@ router.post("/users/signup", (req, res) => {
       }
     }
   );
+  connection.destroy();
 });
 
-router.get("/users/byEmail/:email", (req, res) => {
-  if (req.params.email) {
+const findUserByEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(userQueries.findByEmail(email), (err, res, fields) => {
+      if (err) {
+        reject(err);
+        return connection.destroy();
+      }
+      resolve(res[0]);
+      return connection.destroy();
+    });
+  });
+};
+const findUserByID = (id) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(userQueries.findByID(id), (err, res, fields) => {
+      if (err) {
+        reject(err);
+        return connection.destroy();
+      }
+      resolve(res[0]);
+      return connection.destroy();
+    });
+  });
+};
+const findUserFollowers = (email) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
     connection.query(
-      userQueries.findByEmail(req.params.email),
-      (err, dbres, fields) => {
-        if (err === null) {
-          let user = dbres[0];
-          if (!user) {
-            return res.status(404).send({ err: "User was not found" });
-          }
-          //get followers/following count
-          connection.query(
-            userQueries.getFollowersFollowing(user.email),
-            (follerr, folldbres, follfields) => {
-              if (follerr === null) {
-                user = {
-                  ...user,
-                  followers: folldbres[0].Followers,
-                  following: folldbres[0].Following,
-                };
-
-                // get socialmedialinks
-                connection.query(
-                  userQueries.getSocialMediaLinks(user.email),
-                  (lerr, lres, lfields) => {
-                    if (lerr === null) {
-                      user.socials = lres.map((el) => {
-                        return {
-                          title: el.title,
-                          link: el.link,
-                        };
-                      });
-
-                      return res.status(200).send(user);
-                    } else {
-                      console.log(lerr);
-                    }
-                  }
-                );
-              } else {
-                console.log(follerr);
-              }
-            }
-          );
+      userQueries.getFollowersFollowing(email),
+      (err, res, fields) => {
+        if (err) {
+          reject(err);
+          return connection.destroy();
         }
+        resolve(res[0]);
+        return connection.destroy();
       }
     );
+  });
+};
+const findUserSocialMedia = (email) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(
+      userQueries.getSocialMediaLinks(email),
+      (err, res, fields) => {
+        if (err) {
+          reject(err);
+          return connection.destroy();
+        }
+        resolve(res);
+        return connection.destroy();
+      }
+    );
+  });
+};
+router.get("/users/byEmail/:email", (req, res) => {
+  const { email } = req.params;
+  if (email) {
+    let user;
+    findUserByEmail(email)
+      .then((userdata) => {
+        user = userdata;
+        return findUserFollowers(email);
+      })
+      .then((followersdata) => {
+        user = {
+          ...user,
+          followers: followersdata.Followers,
+          following: followersdata.Following,
+        };
+        return findUserSocialMedia(email);
+      })
+      .then((links) => {
+        user.socials = links.map((l) => {
+          return {
+            title: l.title,
+            link: l.link,
+          };
+        });
+        res.send(user);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send({ err });
+      });
   }
 });
-
 router.get("/users/byID/:id", (req, res) => {
-  console.log(req.params.id);
-  if (req.params.id) {
-    connection.query(
-      userQueries.findByID(req.params.id),
-      (err, dbres, fields) => {
-        if (err === null) {
-          let user = dbres[0];
-          if (!user) {
-            return res.status(404).send({ err: "User was not fount" });
-          }
-          //get followers/following count
-          connection.query(
-            userQueries.getFollowersFollowing(user.email),
-            (follerr, folldbres, follfields) => {
-              if (follerr === null) {
-                user = {
-                  ...user,
-                  followers: folldbres[0].Followers,
-                  following: folldbres[0].Following,
-                };
-
-                // get socialmedialinks
-                connection.query(
-                  userQueries.getSocialMediaLinks(user.email),
-                  (lerr, lres, lfields) => {
-                    if (lerr === null) {
-                      user.socials = lres.map((el) => {
-                        return {
-                          title: el.title,
-                          link: el.link,
-                        };
-                      });
-                      return res.status(200).send(user);
-                    }
-                  }
-                );
-              }
-            }
-          );
-        }
-      }
-    );
+  const { id } = req.params;
+  if (id) {
+    let user;
+    let email;
+    findUserByID(id)
+      .then((userData) => {
+        user = userData;
+        email = user.email;
+        console.log(user);
+        return findUserFollowers(email);
+      })
+      .then((followersdata) => {
+        user = {
+          ...user,
+          followers: followersdata.Followers,
+          following: followersdata.Following,
+        };
+        return findUserSocialMedia(email);
+      })
+      .then((links) => {
+        user.socials = links.map((l) => {
+          return {
+            title: l.title,
+            link: l.link,
+          };
+        });
+        res.send(user);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send({ err });
+      });
   }
 });
 export default router;
