@@ -52,7 +52,9 @@ const renderUI = (article) => {
     articleContainer += `<h2>${section.title}</h2>`;
     articleContainer += `<div class="section-gallery">`;
     articleContainer += `<div class="gallery" data-index=${index}>`;
-    articleContainer += `<button class="prev"><</button>`;
+    if (section.gallery.photos.length > 1) {
+      articleContainer += `<button class="prev"><</button>`;
+    }
     articleContainer += `Gallery: ${section.gallery.title}`;
     articleContainer += `<div class="gallery-images">`;
 
@@ -66,7 +68,9 @@ const renderUI = (article) => {
       </div>`;
     });
     articleContainer += `</div>`;
-    articleContainer += `<button class="next">></button>`;
+    if (section.gallery.photos.length > 1) {
+      articleContainer += `<button class="next">></button>`;
+    }
     articleContainer += `</div>`;
     articleContainer += `</div>`;
     articleContainer += `<div class="section-content">${section.content}</div>`;
@@ -81,13 +85,28 @@ const renderUI = (article) => {
       const prev = e.target.closest(".prev");
       const next = e.target.closest(".next");
       if (prev) {
-        console.log(galleries[gallery.dataset.index]);
-        console.log(currentIndex[gallery.dataset.index]);
-        console.log(translateX[gallery.dataset.index]);
-        console.log("PREV");
+        if (currentIndex[gallery.dataset.index] != 0) {
+          translateX[gallery.dataset.index] += gallery.offsetWidth;
+          currentIndex[gallery.dataset.index] -= 1;
+          const images = gallery.querySelectorAll(".gallery-images .image");
+          images.forEach((image) => {
+            image.style.transform = `translateX(${
+              translateX[gallery.dataset.index]
+            }px)`;
+          });
+        }
       }
       if (next) {
-        console.log("NEXT");
+        const images = gallery.querySelectorAll(".gallery-images .image");
+        if (currentIndex[gallery.dataset.index] != images.length - 1) {
+          translateX[gallery.dataset.index] -= gallery.offsetWidth;
+          currentIndex[gallery.dataset.index] += 1;
+          images.forEach((image) => {
+            image.style.transform = `translateX(${
+              translateX[gallery.dataset.index]
+            }px)`;
+          });
+        }
       }
     });
   });
