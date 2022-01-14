@@ -37,7 +37,7 @@ a.dark {
   color: #191919;
 }
 a.button-link {
-  border: 1px solid #fff;
+  border: 1px solid #191919;
   padding: 0.7rem 1rem;
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, #191919 50%, #f4f4f4 50%);

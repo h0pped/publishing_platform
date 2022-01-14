@@ -15,10 +15,12 @@ const renderImages = (data) => {
 };
 const renderImage = (image) => {
   const imgContainer = `<a href="/photo/${image.id}"><div class="photo-card">
+  <div class="img">
   <img
-    src="${URL}/static/user_photos/${image.filepath}"
-    alt="${image.filepath}"
+  src="${URL}/static/user_photos/${image.filepath}"
+  alt="${image.filepath}"
   />
+  </div>
   <p>${image.name}</p>
 </div></a>`;
   photosGrid.innerHTML += imgContainer;
