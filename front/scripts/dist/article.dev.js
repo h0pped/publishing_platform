@@ -42,10 +42,10 @@ var renderUI = function renderUI(article) {
       articleContainer += "<button class=\"prev\"><</button>";
     }
 
-    articleContainer += "Gallery: ".concat(section.gallery.title);
+    articleContainer += "".concat(section.gallery.title != "null" ? "Gallery: ".concat(section.gallery.title) : "Gallery");
     articleContainer += "<div class=\"gallery-images\">";
     section.gallery.photos.forEach(function (photo) {
-      articleContainer += "<div class=\"image\">\n        <img src=\"".concat(URL, "/static/user_photos/").concat(photo.filepath, "\" alt=\"").concat(photo.alt_text, "\" />\n        <h4>\n          ").concat(photo.title, "\n        </h4>\n        <p>Source: ").concat(photo.source, "</p>\n      </div>");
+      articleContainer += "<div class=\"image\">\n        <img src=\"".concat(URL, "/static/user_photos/").concat(photo.filepath, "\" alt=\"").concat(photo.alt_text, "\" />\n          ").concat(photo.title == null ? "" : "<h4>".concat(photo.title, "</h4>"), "\n        <p>Source: ").concat(photo.source, "</p>\n      </div>");
     });
     articleContainer += "</div>";
 

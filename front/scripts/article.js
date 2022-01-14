@@ -55,15 +55,19 @@ const renderUI = (article) => {
     if (section.gallery.photos.length > 1) {
       articleContainer += `<button class="prev"><</button>`;
     }
-    articleContainer += `Gallery: ${section.gallery.title}`;
+    articleContainer += `${
+      section.gallery.title != "null"
+        ? `Gallery: ${section.gallery.title}`
+        : "Gallery"
+    }`;
     articleContainer += `<div class="gallery-images">`;
 
     section.gallery.photos.forEach((photo) => {
       articleContainer += `<div class="image">
-        <img src="${URL}/static/user_photos/${photo.filepath}" alt="${photo.alt_text}" />
-        <h4>
-          ${photo.title}
-        </h4>
+        <img src="${URL}/static/user_photos/${photo.filepath}" alt="${
+        photo.alt_text
+      }" />
+          ${photo.title == null ? "" : `<h4>${photo.title}</h4>`}
         <p>Source: ${photo.source}</p>
       </div>`;
     });

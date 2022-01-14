@@ -1,0 +1,39 @@
+.title {
+  font-size: 3rem;
+  line-height: 5rem;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  position: relative;
+}
+
+.photos {
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  padding: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.photos .photo-card {
+  height: 20rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.photos .photo-card img {
+  width: 100%;
+  height: 18rem;
+  object-fit: cover;
+}
+.photos .photo-card p {
+  margin-bottom: 0.5rem;
+}
