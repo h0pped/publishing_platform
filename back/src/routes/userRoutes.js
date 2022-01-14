@@ -33,9 +33,11 @@ const insertCity = (countryID, city) => {
       cityQueries.insertCity(countryID, city),
       (err, res, fields) => {
         if (err) {
+          console.log(err);
           reject(err);
           return connection.destroy();
         }
+        console.log("city insert");
         resolve(res[0]);
         return connection.destroy();
       }
@@ -50,6 +52,7 @@ const insertNewUser = (user) => {
         reject(err);
         return connection.destroy();
       }
+      console.log("INSERTION RES", res);
       resolve(res[0]);
       return connection.destroy();
     });
@@ -163,7 +166,7 @@ router.post("/users/findByCredentials", (req, res) => {
     }
   );
 });
-router.post("/users/signup", (req, res) => {
+router.post("/users/signup", async (req, res) => {
   const user = req.body;
   let regex;
   let matches;
@@ -180,54 +183,78 @@ router.post("/users/signup", (req, res) => {
         ext = matches[1];
         data = matches[2];
         buffer = Buffer.from(data, "base64");
-
+        let imgpath = user.email + "_avatar." + ext;
+        fs.writeFileSync(`./public/profile_pics/${imgpath}`, buffer);
         imagepath = user.email + "_avatar." + ext;
-        fs.writeFileSync(`./public/profile_pics/${imagepath}`, buffer);
       } catch (err) {
         console.log(err);
       }
     }
-    checkCity(user.countryID, user.city)
-      .then((data) => {
-        let salt = bcrypt.genSaltSync(10);
-        let hash = bcrypt.hashSync(user.password, salt);
-        const userdb = {
-          name: user.name,
-          surname: user.surname,
-          email: user.email,
-          password: hash,
-          description: user.description,
-          genderID: user.genderID,
-          imagepath,
-        };
-        if (!data) {
-          // Insert new City
-          insertCity(user.countryID, user.city).then((d) => {
-            return insertNewUser(userdb);
-          });
-        } else {
-          return insertNewUser(userdb);
-        }
-      })
-      .then((data) => {
-        const userlocation = {
-          countryID: user.countryID,
-          city: user.city,
-          postalCode: user.postalCode,
-          street: user.street,
-          userEmail: user.email,
-        };
-        return insertLocation(userlocation);
-      })
-      .then((data) => {
-        res.status(201).send(user);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send({ err });
-      });
-  } else {
-    res.status(400).send({ err: "User is requires" });
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(user.password, salt);
+    const userdb = {
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      password: hash,
+      description: user.description,
+      genderID: user.genderID,
+      imagepath,
+    };
+    try {
+      let city = await checkCity(user.countryID, user.city);
+      // console.log(city);
+      if (city) {
+        await insertNewUser(userdb);
+      } else {
+        await insertCity(user.countryID, user.city);
+        await insertNewUser(userdb);
+      }
+      const userlocation = {
+        countryID: user.countryID,
+        city: user.city,
+        postalCode: user.postalCode,
+        street: user.street,
+        userEmail: user.email,
+      };
+      await insertLocation(userlocation);
+      return res.status(201).send(user);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send(err);
+    }
+
+    // checkCity(user.countryID, user.city)
+    //   .then((data) => {
+    //     if (!data) {
+    //       // Insert new City
+    //       insertCity(user.countryID, user.city).then((d) => {
+    //         console.log("insert new city", d);
+    //         return insertNewUser(userdb);
+    //       });
+    //     } else {
+    //       console.log("city exists");
+
+    //       return insertNewUser(userdb);
+    //     }
+    //   })
+    //   .then((data) => {
+    //     const userlocation = {
+    //       countryID: user.countryID,
+    //       city: user.city,
+    //       postalCode: user.postalCode,
+    //       street: user.street,
+    //       userEmail: user.email,
+    //     };
+    //     return insertLocation(userlocation);
+    //   })
+    //   .then((data) => {
+    //     res.status(201).send(user);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     res.status(500).send({ err });
+    //   });
   }
 });
 router.get("/users/byEmail/:email", (req, res) => {
