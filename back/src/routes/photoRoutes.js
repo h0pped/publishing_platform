@@ -1,4 +1,5 @@
 import express from "express";
+import fs from "fs";
 const router = express.Router();
 
 import * as connectionRequest from "../db/connection.js";
@@ -18,6 +19,39 @@ router.get("/photos/:email", (req, res) => {
       return connection.destroy();
     }
   );
+});
+router.post("/photos/add", (req, res) => {
+  const { email, img, name } = req.body;
+  let imgpath;
+  let regex;
+  let matches;
+  let ext;
+  let data;
+  let buffer;
+  try {
+    regex = /^data:.+\/(.+);base64,(.*)$/;
+    matches = img.match(regex);
+    ext = matches[1];
+    data = matches[2];
+    buffer = Buffer.from(data, "base64");
+    imgpath = email + "_" + name + "_" + Date.now() + "." + ext;
+    fs.writeFileSync(`./public/user_photos/${imgpath}`, buffer);
+    let connection = connectionRequest.connectionRequest();
+    connection.query(
+      photoQueries.addPhoto(email, name, imgpath),
+      (err, dbres, fields) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send({ err });
+        } else {
+          res.status(201).send({ dbres });
+        }
+        return connection.destroy();
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 export default router;
