@@ -263,14 +263,26 @@ section#recent-articles .article {
   align-items: center;
   max-width: 300px;
 }
-section#recent-articles .article .article-thumbnail img {
+section#recent-articles .article a {
+  color: #191919;
+}
+section#recent-articles .article .article-thumbnail {
+  overflow: hidden;
   width: 300px;
   height: 180px;
+}
+section#recent-articles .article .article-thumbnail img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
 section#recent-articles .article .article-title {
   margin-top: 1rem;
   text-align: center;
+}
+section#recent-articles .article:hover img {
+  transform: scale(1.2);
 }
 
 /*# sourceMappingURL=index.css.map */

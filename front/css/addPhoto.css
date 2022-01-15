@@ -21,6 +21,7 @@
   text-align: center;
   position: relative;
   flex-direction: column;
+  margin-bottom: 2rem;
 }
 #add-photo .input-container {
   display: flex;

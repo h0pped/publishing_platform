@@ -5,7 +5,9 @@ const SERVER_URL = "http://127.0.0.1:3000";
 const generateArticle = (data) => {
   const article = document.createElement("div");
   article.classList.add("article");
+
   article.innerHTML = `
+    <a href="/article/?id=${data.ID}">
     <div class="article-thumbnail">
       <img
         src="${SERVER_URL}/static/article_thumbnails/${data.thumbnail_path}"
@@ -17,6 +19,7 @@ const generateArticle = (data) => {
         ${data.title}
       </p>
     </div>
+    </a>
     `;
   return article;
 };
