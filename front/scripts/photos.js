@@ -9,7 +9,7 @@ if (!userCredentials?.email) {
 
 const photosGrid = document.querySelector(".photos");
 const renderImages = (data) => {
-  data.forEach((img) => {
+  data.reverse().forEach((img) => {
     renderImage(img);
   });
 };

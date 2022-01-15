@@ -70,13 +70,27 @@ a:hover.active::after {
   padding: 0.7rem 1rem;
   background: #f4f4f4;
   font-size: 1rem;
+  transition: all 0.5s ease;
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, #191919 50%, #f4f4f4 50%);
   cursor: pointer;
+}
+.btn:hover {
+  background-position: 0 100%;
+  color: black;
 }
 .btn.full-width {
   width: 100%;
 }
 .btn.dark {
   background: #191919;
+  color: #fff;
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, #f4f4f4 50%, #191919 50%);
+  color: #191919;
+}
+.btn.dark:hover {
+  background-position: 0 100%;
   color: #fff;
 }
 

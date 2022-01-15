@@ -59,7 +59,18 @@ a {
   padding: 0.7rem 1rem;
   background: colors.$base;
   font-size: 1rem;
+  transition: all 0.5s ease;
 
+  background-size: 100% 200%;
+  background-image: linear-gradient(
+    to bottom,
+    colors.$base-dark 50%,
+    colors.$base 50%
+  );
+  &:hover {
+    background-position: 0 100%;
+    color: rgb(0, 0, 0);
+  }
   cursor: pointer;
 
   &.full-width {
@@ -68,6 +79,17 @@ a {
   &.dark {
     background: colors.$base-dark;
     color: colors.$font-white;
+    background-size: 100% 200%;
+    background-image: linear-gradient(
+      to bottom,
+      colors.$base 50%,
+      colors.$base-dark 50%
+    );
+    color: colors.$font-dark;
+    &:hover {
+      background-position: 0 100%;
+      color: colors.$font-white;
+    }
   }
 }
 .container {

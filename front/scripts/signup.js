@@ -76,7 +76,6 @@ function getBase64(file) {
 signUpForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   console.log("processing...");
-  console.log();
   let img;
   if (inputs["image-input"].files[0]) {
     img = await getBase64(inputs["image-input"].files[0]);

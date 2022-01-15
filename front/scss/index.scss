@@ -34,6 +34,9 @@ section {
       justify-content: space-evenly;
       width: 30%;
     }
+    a {
+      border-color: colors.$font-white;
+    }
   }
   &#recent-articles {
     max-width: 1200px;

@@ -1,0 +1,68 @@
+.title {
+  font-size: 3rem;
+  line-height: 5rem;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  position: relative;
+}
+
+#add-photo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  flex-direction: column;
+}
+#add-photo .input-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+#add-photo .input-container label {
+  text-align: left;
+}
+#add-photo .image-preview-label {
+  grid-area: photo;
+  width: 350px;
+  height: 250px;
+  border: 1px solid #191919;
+  margin: 0;
+  position: relative;
+}
+#add-photo .image-preview-label p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+#add-photo .image-preview {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 999;
+}
+#add-photo input[type=file] {
+  display: none;
+}
+#add-photo input {
+  display: block;
+  background: #f4f4f4;
+  border: 1px solid #191919;
+  font-size: 1rem;
+  padding: 0.5rem 0.5rem;
+}
+
+/*# sourceMappingURL=addPhoto.css.map */
