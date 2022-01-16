@@ -71,6 +71,8 @@ const addPhotoToUI = (index) => {
         <img
           src="#"
           alt="Click to choose photo"
+          class="gallery-img"
+          data-index=${sections[index].gallery.photos.length - 1}
         />
       </div>
       <div class="img-data">
@@ -150,8 +152,12 @@ form.addEventListener("click", (e) => {
   if (e.target.classList.contains("add-gallery-btn")) {
     appendGallery(e.target.dataset.index);
   } else if (e.target.classList.contains("add-photo-btn")) {
-    console.log("APPEND PHOTO", e.target.dataset.index);
     appendPhoto(e.target.dataset.index);
+  } else if (e.target.classList.contains("gallery-img")) {
+    const section = e.target.closest(".add-section-container");
+    console.log(
+      `CHANGE PHOTO ON SECTION #${section.dataset.index} ON PHOTO #${e.target.dataset.index}`
+    );
   }
 });
 

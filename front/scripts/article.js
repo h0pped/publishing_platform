@@ -31,9 +31,9 @@ const renderUI = (article) => {
   let articleContainer = `<div class="article">`;
   articleContainer += `<div class="article-main">`;
   articleContainer += `
-        <h2 class="article-title">
+        <h1 class="article-title title">
         ${article.title}
-      </h2>
+      </h1>
       <img
         src="${URL}/static/article_thumbnails/${article.thumbnail_path}"
         alt="article thumbnail"
