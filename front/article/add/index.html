@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Publishing Platform - Create Article</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/addArticle.css" />
+
+    <!-- Scripts -->
+    <script src="../../scripts/addArticle.js" defer></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="#" class="logo">Logo</a>
+      <ul>
+        <li>
+          <a href="/">Main</a>
+        </li>
+        <li>
+          <a href="#">Browse</a>
+        </li>
+        <li>
+          <a href="#">FAQ</a>
+        </li>
+        <li>
+          <a href="/profile">Account</a>
+        </li>
+        <li>
+          <a href="#" class="active">Create Article</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <h1 class="title">Create Article</h1>
+      <form action="#" id="add-photo">
+        <div id="profile-photo" class="input-container">
+          <label for="image-input">Thumbnail</label>
+          <label for="image-input" class="image-preview-label">
+            <p id="image-preview-text">Input image...</p>
+            <img src="" alt="" class="image-preview" />
+          </label>
+          <input
+            type="file"
+            name="profile_thumbnail"
+            id="image-input"
+            accept=".jpg, .png, .jpeg"
+          />
+        </div>
+        <div class="input-container">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" />
+        </div>
+        <div class="input-container">
+          <label for="description">Description</label>
+          <textarea
+            type="text"
+            name="description"
+            rows="15"
+            id="description"
+          ></textarea>
+        </div>
+        <div class="category-tags-container">
+          <select id="category" name="category">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="fiat">Fiat</option>
+            <option value="audi">Audi</option>
+          </select>
+          <div class="input">
+            <label for="tags">Tags (separated by comma)</label>
+            <input type="text" name="tags" id="tags" />
+          </div>
+        </div>
+        <!-- <div class="add-section-container">
+          <div class="input-container">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" />
+          </div>
+          <div class="input-container">
+            <label for="content">Content</label>
+            <textarea
+              type="text"
+              name="content"
+              id="content"
+              rows="10"
+            ></textarea>
+          </div>
+          <button type="button" class="btn dark add-gallery-btn">
+            Add Gallery
+          </button>
+          <div class="add-gallery-container">
+            <div class="input-container">
+              <label for="gallery-title">Gallery Title</label>
+              <input type="text" name="gallery-title" id="gallery-title" />
+            </div>
+            <div class="input-photo-container">
+              <div class="photo">
+                <div class="img">
+                  <p>Image Preview</p>
+                  <img
+                    src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
+                    alt="#"
+                  />
+                </div>
+                <div class="img-data">
+                  <div class="input-container">
+                    <label for="photo-title">Title</label>
+                    <input type="text" name="photo-title" id="photo-title" />
+                  </div>
+                  <div class="input-container">
+                    <label for="photo-alternative">Alternative Text</label>
+                    <input
+                      type="text"
+                      name="photo-alternative"
+                      id="photo-alternative"
+                    />
+                  </div>
+                  <div class="input-container">
+                    <label for="photo-source">Source</label>
+                    <input type="text" name="photo-source" id="photo-source" />
+                  </div>
+                </div>
+                <div class="img-remove">
+                  <button type="button" class="btn dark">Remove</button>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn dark">Add Photo</button>
+          </div>
+        </div> -->
+        <div class="buttons-container">
+          <button type="button" id="add-section" class="btn dark full-width">
+            Add Section
+          </button>
+          <button type="submit" class="btn dark full-width">Add</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

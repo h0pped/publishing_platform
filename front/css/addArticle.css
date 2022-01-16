@@ -1,0 +1,134 @@
+.title {
+  font-size: 3rem;
+  line-height: 5rem;
+  font-style: italic;
+}
+
+.subtitle {
+  font-size: 1rem;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "Roboto Slab", serif;
+  position: relative;
+}
+
+#add-photo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  position: relative;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  width: 80%;
+}
+#add-photo .input-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+#add-photo .input-container label {
+  text-align: left;
+}
+#add-photo #profile-photo label {
+  margin: auto;
+}
+#add-photo .image-preview-label {
+  grid-area: photo;
+  width: 350px;
+  height: 250px;
+  border: 1px solid #191919;
+  margin: 0;
+  position: relative;
+}
+#add-photo .image-preview-label p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+#add-photo .image-preview {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 999;
+}
+#add-photo input[type=file] {
+  display: none;
+}
+#add-photo input {
+  display: block;
+  background: #f4f4f4;
+  border: 1px solid #191919;
+  font-size: 1rem;
+  padding: 0.5rem 0.5rem;
+  width: 100%;
+}
+#add-photo textarea {
+  display: block;
+  background: #f4f4f4;
+  border: 1px solid #191919;
+  font-size: 1rem;
+  padding: 0.5rem 0.5rem;
+  width: 100%;
+}
+#add-photo .category-tags-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+#add-photo .category-tags-container .input {
+  width: 93%;
+}
+#add-photo .add-section-container {
+  width: 100%;
+  background-color: #e0dfdf;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+#add-photo .buttons-container {
+  width: 100%;
+}
+#add-photo .buttons-container button:first-of-type {
+  margin-bottom: 1rem;
+}
+#add-photo .add-gallery-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+#add-photo .add-gallery-container .input-container {
+  margin-bottom: 1rem;
+}
+#add-photo .input-photo-container {
+  width: 100%;
+}
+#add-photo .input-photo-container .photo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#add-photo .input-photo-container .photo .img {
+  width: 40%;
+}
+#add-photo .input-photo-container .photo .img img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  cursor: pointer;
+}
+#add-photo .input-photo-container .photo .img-data {
+  width: 40%;
+}
+#add-photo .input-photo-container .photo .img-data .input-container {
+  margin-bottom: 1rem;
+}
+
+/*# sourceMappingURL=addArticle.css.map */
