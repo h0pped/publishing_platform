@@ -2,9 +2,21 @@ const addSectionButton = document.querySelector("#add-section");
 const form = document.querySelector("#add-photo");
 const buttonsContainer = document.querySelector(".buttons-container");
 
+const imageInput = document.querySelector("#image-input");
+const imagePreview = document.querySelector(".image-preview");
+imageInput.addEventListener("change", (e) => {
+  imagePreview.src = URL.createObjectURL(e.target.files[0]);
+  imagePreview.onload = function () {
+    URL.revokeObjectURL(imagePreview.src);
+    document.querySelector("#image-preview-text").style.display = "none";
+  };
+});
+
+const SERVER_URL = "http://127.0.0.1:3000";
 const articleData = {};
 const sections = [];
 let sectionsCount = 0;
+let categories = [];
 
 const addSectionToUI = (section) => {
   let sectionContainer = document.createElement("div");
@@ -142,3 +154,32 @@ form.addEventListener("click", (e) => {
     appendPhoto(e.target.dataset.index);
   }
 });
+
+const fillCategories = () => {
+  const categoriesContainer = document.querySelector("#category");
+  categories.forEach((category) => {
+    categoriesContainer.innerHTML += `<option value="${category.ID}">${category.title}</option>`;
+  });
+};
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = (err) => {
+      reject("Error: ", error);
+    };
+  });
+}
+
+// FETCH CATEGORIES
+(async () => {
+  const result = await fetch(`${SERVER_URL}/categories/all`);
+  const json = await result.json();
+  categories = json;
+  console.log(categories);
+  fillCategories();
+})();
