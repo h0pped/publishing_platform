@@ -1,6 +1,16 @@
+const userCredentials =
+  window.sessionStorage["user"] && JSON.parse(window.sessionStorage["user"]);
+
+if (!userCredentials?.email) {
+  window.location.href = "/login";
+}
+
 const addSectionButton = document.querySelector("#add-section");
 const form = document.querySelector("#add-photo");
+let inputs = form.elements;
 const buttonsContainer = document.querySelector(".buttons-container");
+const modal = document.querySelector("#modal");
+const photosGrid = document.querySelector(".photos");
 
 const imageInput = document.querySelector("#image-input");
 const imagePreview = document.querySelector(".image-preview");
@@ -17,6 +27,9 @@ const articleData = {};
 const sections = [];
 let sectionsCount = 0;
 let categories = [];
+let photos = [];
+
+let currentImageSelector = {};
 
 const addSectionToUI = (section) => {
   let sectionContainer = document.createElement("div");
@@ -148,16 +161,74 @@ addSectionButton.addEventListener("click", (e) => {
   console.log(sections);
 });
 
-form.addEventListener("click", (e) => {
+const showModal = () => {
+  modal.classList.remove("hidden");
+};
+
+const hideModal = () => {
+  photosGrid.innerHTML = "";
+  modal.classList.add("hidden");
+};
+modal.addEventListener("click", (e) => {
+  let image = e.target.closest(".photo-card");
+  let chosenPhoto;
+  if (image) {
+    chosenPhoto = photos.find((el) => el.id == image.dataset.index);
+    sections[currentImageSelector.section].gallery.photos[
+      currentImageSelector.photo
+    ] = {
+      id: image.dataset.index,
+      title: "",
+      alternative: "",
+      source: "",
+    };
+  }
+  document.querySelector(
+    `.add-section-container[data-index="${currentImageSelector.section}"] .gallery-img[data-index="${currentImageSelector.photo}"]`
+  ).src = `${SERVER_URL}/static/user_photos/${chosenPhoto.filepath}`;
+  hideModal();
+});
+const renderImage = (image) => {
+  const imgContainer = `<div class="photo-card" data-index=${image.id}>
+  <div class="img" >
+  <img
+  src="${SERVER_URL}/static/user_photos/${image.filepath}"
+  alt="${image.filepath}"
+  />
+  </div>
+  <p>${image.name}</p>
+</div>`;
+  photosGrid.innerHTML += imgContainer;
+};
+const renderImages = (json) => {
+  photosGrid.innerHTML = "";
+  showModal();
+  json.forEach((image) => {
+    renderImage(image);
+  });
+};
+const selectPhoto = async () => {
+  const data = await fetch(`${SERVER_URL}/photos/${userCredentials.email}`);
+  const json = await data.json();
+  photos = json;
+  renderImages(json);
+};
+form.addEventListener("click", async (e) => {
   if (e.target.classList.contains("add-gallery-btn")) {
     appendGallery(e.target.dataset.index);
   } else if (e.target.classList.contains("add-photo-btn")) {
     appendPhoto(e.target.dataset.index);
   } else if (e.target.classList.contains("gallery-img")) {
-    const section = e.target.closest(".add-section-container");
+    const sectionIndex = e.target.closest(".add-section-container").dataset
+      .index;
     console.log(
-      `CHANGE PHOTO ON SECTION #${section.dataset.index} ON PHOTO #${e.target.dataset.index}`
+      `CHANGE PHOTO ON SECTION #${sectionIndex} ON PHOTO #${e.target.dataset.index}`
     );
+    currentImageSelector = {
+      section: sectionIndex,
+      photo: e.target.dataset.index,
+    };
+    await selectPhoto();
   }
 });
 
@@ -168,7 +239,7 @@ const fillCategories = () => {
   });
 };
 
-function getBase64(file) {
+const getBase64 = (file) => {
   return new Promise((resolve, reject) => {
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -179,7 +250,31 @@ function getBase64(file) {
       reject("Error: ", error);
     };
   });
-}
+};
+
+const splitTags = (tags) =>
+  tags.split(",").map((tag) => tag.trim().toLowerCase());
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let img;
+  if (inputs["image-input"].files[0]) {
+    try {
+      img = await getBase64(inputs["image-input"].files[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  let title = document.querySelector("#name").value;
+  let description = document.querySelector("#description").value;
+  console.log(categories);
+  let category = categories.find(
+    (el) => el.ID == document.querySelector("#category").value
+  );
+  let tagsInput = document.querySelector("#tags").value;
+  tags = splitTags(tagsInput);
+  console.log(tags);
+});
 
 // FETCH CATEGORIES
 (async () => {

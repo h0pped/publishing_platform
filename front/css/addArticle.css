@@ -14,6 +14,65 @@
   position: relative;
 }
 
+#modal {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+#modal.hidden {
+  display: none;
+}
+#modal .card {
+  margin-top: 5rem;
+  background-color: #f4f4f4;
+  width: 70vw;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+}
+#modal .card .photos {
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  padding: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  overflow-y: scroll;
+}
+#modal .card .photos .photo-card {
+  overflow: hidden;
+  height: 20rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#modal .card .photos .photo-card .img {
+  overflow: hidden;
+}
+#modal .card .photos .photo-card img {
+  width: 100%;
+  height: 18rem;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+  overflow: hidden;
+}
+#modal .card .photos .photo-card p {
+  margin-bottom: 0.5rem;
+  color: #191919;
+}
+#modal .card .photos .photo-card:hover img {
+  transform: scale(1.2);
+}
+
 #add-photo {
   display: flex;
   justify-content: flex-start;
@@ -121,7 +180,7 @@
 #add-photo .input-photo-container .photo .img img {
   width: 100%;
   aspect-ratio: 16/10;
-  object-fit: cover;
+  object-fit: contain;
   cursor: pointer;
 }
 #add-photo .input-photo-container .photo .img-data {
