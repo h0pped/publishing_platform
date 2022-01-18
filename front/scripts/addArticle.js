@@ -23,7 +23,7 @@ imageInput.addEventListener("change", (e) => {
 });
 
 const SERVER_URL = "http://127.0.0.1:3000";
-const articleData = {};
+let articleData = {};
 const sections = [];
 let sectionsCount = 0;
 let categories = [];
@@ -75,7 +75,7 @@ const addPhotoToUI = (index) => {
   photoContainer.classList.add("add-photo-container");
   photoContainer.dataset.index = index;
   photoContainer.innerHTML = `
-    <div class="input-photo-container" dataset-index=${
+    <div class="input-photo-container" data-index=${
       sections[index].gallery.photos.length - 1
     }>
     <div class="photo">
@@ -137,7 +137,7 @@ const addPhotoToUI = (index) => {
 };
 
 const appendSection = () => {
-  let section = { title: "", desctiption: "" };
+  let section = { title: "", content: "" };
   sections.push(section);
   addSectionToUI(section);
   sectionsCount++;
@@ -255,8 +255,7 @@ const getBase64 = (file) => {
 const splitTags = (tags) =>
   tags.split(",").map((tag) => tag.trim().toLowerCase());
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+const parseArticleData = async () => {
   let img;
   if (inputs["image-input"].files[0]) {
     try {
@@ -267,13 +266,69 @@ form.addEventListener("submit", async (e) => {
   }
   let title = document.querySelector("#name").value;
   let description = document.querySelector("#description").value;
-  console.log(categories);
   let category = categories.find(
     (el) => el.ID == document.querySelector("#category").value
   );
   let tagsInput = document.querySelector("#tags").value;
-  tags = splitTags(tagsInput);
-  console.log(tags);
+  if (tagsInput !== "") {
+    tags = splitTags(tagsInput);
+  } else {
+    tags = [];
+  }
+
+  const sectionsContainer = document.querySelectorAll(".add-section-container");
+  sectionsContainer.forEach((section) => {
+    console.log(sections);
+    const sectionIndex = section.dataset.index;
+    const sectionTitle = section.querySelector(`#title-${sectionIndex}`).value;
+    const sectionContent = section.querySelector(
+      `#content-${sectionIndex}`
+    ).value;
+    const galleries = section.querySelectorAll(".add-gallery-container");
+    galleries.forEach((gallery) => {
+      const galleryIndex = gallery.dataset.index;
+      const galleryTitle = gallery.querySelector(
+        `#gallery-title-${galleryIndex}`
+      ).value;
+      const images = gallery.querySelectorAll(".input-photo-container");
+      images.forEach((img) => {
+        const imgIndex = img.dataset.index;
+        if (sections[sectionIndex].gallery.photos[imgIndex].id) {
+          console.log(img);
+          console.log(`#photo-title-${imgIndex}`);
+          console.log(img.querySelector(`#photo-title-${imgIndex}`));
+          const imgTitle = img.querySelector(`#photo-title-${imgIndex}`).value;
+          const imgAlt = img.querySelector(
+            `#photo-alternative-${imgIndex}`
+          ).value;
+          const imgSource = img.querySelector(
+            `#photo-source-${imgIndex}`
+          ).value;
+          sections[sectionIndex].gallery.photos[imgIndex].title = imgTitle;
+          sections[sectionIndex].gallery.photos[imgIndex].alternative = imgAlt;
+          sections[sectionIndex].gallery.photos[imgIndex].source = imgSource;
+        }
+      });
+      sections[sectionIndex].gallery.title = galleryTitle;
+    });
+    sections[sectionIndex].title = sectionTitle;
+    sections[sectionIndex].content = sectionContent;
+  });
+
+  articleData = {
+    img,
+    title,
+    description,
+    category,
+    tags,
+    sections,
+  };
+};
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  await parseArticleData();
+  console.log(articleData);
 });
 
 // FETCH CATEGORIES
@@ -281,6 +336,5 @@ form.addEventListener("submit", async (e) => {
   const result = await fetch(`${SERVER_URL}/categories/all`);
   const json = await result.json();
   categories = json;
-  console.log(categories);
   fillCategories();
 })();
