@@ -1,6 +1,8 @@
 import express from "express";
 const router = express.Router();
 
+import fs from "fs";
+
 import * as connectionRequest from "../db/connection.js";
 import * as articleQueries from "../db/queries/articlequeries.js";
 
@@ -209,5 +211,85 @@ router.get("/articles/byID/:id", (req, res) => {
       console.log(err);
       res.send({ err: err.message });
     });
+});
+
+const createArticle = (article) => {
+  let imgpath;
+  let regex;
+  let matches;
+  let ext;
+  let data;
+  let buffer;
+  if (article.img) {
+    try {
+      regex = /^data:.+\/(.+);base64,(.*)$/;
+      matches = article.img.match(regex);
+      ext = matches[1];
+      data = matches[2];
+      buffer = Buffer.from(data, "base64");
+      imgpath = article.email + "_" + Date.now() + "." + ext;
+      fs.writeFileSync(`./public/article_thumbnails/${imgpath}`, buffer);
+      article.imgpath = imgpath;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+
+    connection.query(
+      articleQueries.createArticle(article),
+      (err, rows, fields) => {
+        if (err) {
+          reject(err);
+          connection.destroy();
+        }
+        resolve(rows.insertId);
+        connection.destroy();
+      }
+    );
+  });
+};
+const addTag = (tag) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(articleQueries.createTag(tag), (err, rows, fields) => {
+      // if (err) {
+      //   resolve(err);
+      //   connection.destroy();
+      // }
+      // if (err) {
+      //   console.log(err);
+      // }
+      resolve(rows);
+      connection.destroy();
+    });
+  });
+};
+const linkTag = (tag, articleID) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(
+      articleQueries.linkTag(tag, articleID),
+      (err, rows, fields) => {
+        if (err) {
+          resolve(err);
+          connection.destroy();
+        }
+        resolve(rows);
+        connection.destroy();
+      }
+    );
+  });
+};
+
+router.post("/articles/add", async (req, res) => {
+  let article = req.body;
+  let articleRes = await createArticle(article);
+  let tags = await Promise.all(article.tags.map((tag) => addTag(tag)));
+  let links = await Promise.all(
+    article.tags.map((tag) => linkTag(tag, articleRes))
+  );
+  res.send({ links });
 });
 export default router;

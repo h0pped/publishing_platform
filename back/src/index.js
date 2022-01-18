@@ -26,6 +26,7 @@ import countryRoutes from "./routes/countryRoutes.js";
 import cityRoutes from "./routes/cityRoutes.js";
 import genderRoutes from "./routes/genderRoutes.js";
 import photoRoutes from "./routes/photoRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 // const articleRoutes =  require('./routes')
 app.use(articleRoutes);
 app.use(userRoutes);
@@ -33,6 +34,7 @@ app.use(countryRoutes);
 app.use(cityRoutes);
 app.use(genderRoutes);
 app.use(photoRoutes);
+app.use(categoryRoutes);
 
 app.get("/", (req, res) => {
   let connection = connectionRequest.connectionRequest();

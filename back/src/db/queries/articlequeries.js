@@ -33,3 +33,23 @@ Select sgp.id, sgp.photo_id, p.filepath,sgp.title,sgp.alt_text,sgp.source from S
 inner join Photo p on sgp.photo_id = p.id
 where sgp.gallery_id=${galleryID};
 `;
+export const createArticle = (articleData) => `
+Insert into Article(\`user_id\`,\`title\`,\`description\`,\`thumbnail_path\`,\`postDate\`,\`category_id\`,\`status_id\`) values
+((Select id from user where email="${articleData.email}"),
+"${articleData.title}",
+"${articleData.description}",
+${articleData.imgpath ? `"${articleData.imgpath}"` : null},
+NOW(),
+(Select id from category where title="${articleData.category.title}"),
+(Select id from ArticleStatus where title="Active"));
+`;
+
+export const createTag = (tag) => `
+Insert into Tag(\`title\`)
+values("${tag}");
+`;
+
+export const linkTag = (tag, articleID) => `
+Insert into Article_Tag(\`article_id\`,\`tag_id\`) values
+(${articleID},(select id from Tag where title="${tag}"));
+`;
