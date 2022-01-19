@@ -11,7 +11,7 @@ const inputs = form.elements;
 const imageInput = document.querySelector("#image-input");
 const imagePreview = document.querySelector(".image-preview");
 
-const SERVER_URL = "http://127.0.0.1:3000";
+const SERVER_URL = "https://awril-publishing-platform.herokuapp.com";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {

@@ -22,7 +22,7 @@ imageInput.addEventListener("change", (e) => {
   };
 });
 
-const SERVER_URL = "http://127.0.0.1:3000";
+const SERVER_URL = "https://awril-publishing-platform.herokuapp.com";
 let articleData = {};
 const sections = [];
 let sectionsCount = 0;
@@ -338,14 +338,19 @@ const parseArticleData = async () => {
     },
     body: JSON.stringify(articleData),
   })
-    .then((res) => res.json())
-    .then((json) => console.log(json));
+    .then((res) =>
+      res.status === 201
+        ? (window.location.href = "/profile")
+        : console.log(res)
+    )
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   await parseArticleData();
-  console.log(articleData);
 });
 
 // FETCH CATEGORIES

@@ -1,7 +1,7 @@
 const userCredentials =
   window.sessionStorage["user"] && JSON.parse(window.sessionStorage["user"]);
 
-const URL = "http://127.0.0.1:3000";
+const URL = "https://awril-publishing-platform.herokuapp.com";
 
 if (!userCredentials?.email) {
   window.location.href = "/login";

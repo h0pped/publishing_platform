@@ -2,7 +2,7 @@ const userCredentials = window.sessionStorage["user"];
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-const URL = "http://127.0.0.1:3000";
+const URL = "https://awril-publishing-platform.herokuapp.com";
 const params = urlParams.getAll("id");
 
 const id = urlParams.get("id");

@@ -1,7 +1,7 @@
 const signInButton = document.querySelector("#sign-in-btn");
 const emailInput = document.querySelector("#email-input");
 const passwordInput = document.querySelector("#password-input");
-const SERVER_URL = "http://127.0.0.1:3000";
+const SERVER_URL = "https://awril-publishing-platform.herokuapp.com";
 
 if (window.sessionStorage["user"]) {
   window.location.replace("/profile");

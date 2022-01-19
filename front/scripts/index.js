@@ -1,6 +1,6 @@
 const articlesGrid = document.querySelector(".articles-grid");
 
-const SERVER_URL = "http://127.0.0.1:3000";
+const SERVER_URL = "https://awril-publishing-platform.herokuapp.com";
 
 const generateArticle = (data) => {
   const article = document.createElement("div");
