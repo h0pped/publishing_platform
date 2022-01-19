@@ -37,6 +37,7 @@ app.use(photoRoutes);
 app.use(categoryRoutes);
 
 app.get("/", (req, res) => {
+  console.log("aaa");
   let connection = connectionRequest.connectionRequest();
   connection.query(getAllUsers(), (err, dbres, fields) => {
     res.send(dbres);

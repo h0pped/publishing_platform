@@ -3,7 +3,7 @@ import fs from "fs";
 const router = express.Router();
 
 import * as connectionRequest from "../db/connection.js";
-import * as photoQueries from "../db/queries/photoQueries.js";
+import * as photoQueries from "../db/queries/photoqueries.js";
 router.get("/photos/:email", (req, res) => {
   let { email } = req.params;
   let connection = connectionRequest.connectionRequest();

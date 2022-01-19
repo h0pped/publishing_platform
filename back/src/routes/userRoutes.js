@@ -2,9 +2,9 @@ import express from "express";
 const router = express.Router();
 
 import * as connectionRequest from "../db/connection.js";
-import * as userQueries from "../db/queries/userQueries.js";
-import * as cityQueries from "../db/queries/cityQueries.js";
-import * as locationQueries from "../db/queries/locationQueries.js";
+import * as userQueries from "../db/queries/userqueries.js";
+import * as cityQueries from "../db/queries/cityqueries.js";
+import * as locationQueries from "../db/queries/locationqueries.js";
 import fs from "fs";
 import chalk from "chalk";
 
