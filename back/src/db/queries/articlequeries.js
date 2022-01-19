@@ -53,3 +53,36 @@ export const linkTag = (tag, articleID) => `
 Insert into Article_Tag(\`article_id\`,\`tag_id\`) values
 (${articleID},(select id from Tag where title="${tag}"));
 `;
+
+export const addSection = (section, articleID, order) => `
+Insert into ArticleSection(\`article_id\`,\`title\`,\`content\`,\`order\`) values
+(
+${articleID},
+"${section.title}",
+"${section.content}",
+${order}
+);
+`;
+
+export const addSectionGallery = (gallery, sectionID) => `
+Insert into SectionGallery(\`section_id\`,\`title\`) values
+(
+${sectionID},
+"${gallery.title}"
+);
+`;
+export const linkPhotoWithGallery = (
+  photoID,
+  galleryID,
+  title,
+  alt,
+  source
+) => `
+Insert Into SectionGallery_Photo(\`gallery_id\`,\`photo_id\`,\`title\`,\`alt_text\`,\`source\`) values
+(${galleryID},
+${photoID},
+"${title}",
+"${alt}",
+"${source}");
+
+`;

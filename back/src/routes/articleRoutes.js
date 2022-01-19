@@ -17,14 +17,25 @@ router.get("/articles/recent", (req, res) => {
 const getArticleCategory = (articleID) => {
   return new Promise((resolve, reject) => {
     let connection = connectionRequest.connectionRequest();
+    console.log("ARTICLE", articleQueries.getArticleCategory(articleID));
     connection.query(
       articleQueries.getArticleCategory(articleID),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          reject(err);
         }
-        resolve(rows[0]);
+
+        console.log(rows);
+        if (rows) {
+          connection.destroy();
+
+          resolve(rows[0]);
+        } else {
+          connection.destroy();
+
+          reject("ERROR ");
+        }
         connection.destroy();
       }
     );
@@ -37,11 +48,11 @@ const getArticleTags = (articleId) => {
       articleQueries.getArticleTags(articleId),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          return reject(err);
         }
-        resolve(rows);
         connection.destroy();
+        resolve(rows);
       }
     );
   });
@@ -54,12 +65,11 @@ const getArticle = (articleID) => {
       (err, rows, fields) => {
         if (err) {
           console.log(err);
-          reject(err);
-          return connection.destroy();
+          connection.destroy();
+          return reject(err);
         }
-        console.log(rows);
-        resolve(rows[0]);
         connection.destroy();
+        resolve(rows[0]);
       }
     );
   });
@@ -71,11 +81,11 @@ const getArticleSections = (articleID) => {
       articleQueries.getArticleSectionsByID(articleID),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          return reject(err);
         }
-        resolve(rows);
         connection.destroy();
+        resolve(rows);
       }
     );
   });
@@ -88,11 +98,11 @@ const getSectionGallery = (sectionID) => {
       articleQueries.getSectionGallery(sectionID),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          return reject(err);
         }
-        resolve(rows);
         connection.destroy();
+        resolve(rows);
       }
     );
   });
@@ -105,11 +115,11 @@ const getGalleryImages = (galleryID) => {
       articleQueries.getGalleryPhotos(galleryID),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          return reject(err);
         }
-        resolve(rows);
         connection.destroy();
+        resolve(rows);
       }
     );
   });
@@ -122,11 +132,11 @@ const getUserArticles = (email) => {
       articleQueries.getUserArticles(email),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          return reject(err);
         }
-        resolve(rows);
         connection.destroy();
+        resolve(rows);
       }
     );
   });
@@ -196,13 +206,19 @@ router.get("/articles/byID/:id", (req, res) => {
       });
       return Promise.all(
         article.sections.map((section) => {
-          return getGalleryImages(section.gallery.ID);
+          if (section.gallery) {
+            return getGalleryImages(section.gallery.ID);
+          } else {
+            return [];
+          }
         })
       );
     })
     .then((photos) => {
       article.sections = article.sections.map((section, index) => {
-        section.gallery.photos = photos[index];
+        if (section.gallery) {
+          section.gallery.photos = photos[index];
+        }
         return section;
       });
       res.send(article);
@@ -241,11 +257,12 @@ const createArticle = (article) => {
       articleQueries.createArticle(article),
       (err, rows, fields) => {
         if (err) {
-          reject(err);
           connection.destroy();
+          return reject(err);
         }
-        resolve(rows.insertId);
         connection.destroy();
+        console.log(rows);
+        resolve(rows.insertId);
       }
     );
   });
@@ -261,8 +278,8 @@ const addTag = (tag) => {
       // if (err) {
       //   console.log(err);
       // }
-      resolve(rows);
       connection.destroy();
+      resolve(rows);
     });
   });
 };
@@ -273,23 +290,107 @@ const linkTag = (tag, articleID) => {
       articleQueries.linkTag(tag, articleID),
       (err, rows, fields) => {
         if (err) {
-          resolve(err);
           connection.destroy();
+          resolve(err);
         }
-        resolve(rows);
         connection.destroy();
+        resolve(rows);
+      }
+    );
+  });
+};
+const addSection = (section, articleID, order) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(
+      articleQueries.addSection(section, articleID, order),
+      (err, rows, fields) => {
+        if (err) {
+          console.log(err);
+          connection.destroy();
+          return reject(err);
+        }
+        console.log("ROWS", rows);
+        connection.destroy();
+        resolve(rows.insertId);
+      }
+    );
+  });
+};
+const addSectionGallery = (gallery, sectionID) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    console.log(articleQueries.addSectionGallery(gallery, sectionID));
+    connection.query(
+      articleQueries.addSectionGallery(gallery, sectionID),
+      (err, rows, fields) => {
+        if (err) {
+          connection.destroy();
+          return reject(err);
+        }
+        connection.destroy();
+        resolve(rows.insertId);
       }
     );
   });
 };
 
+const linkPhotoWithGallery = (photoID, galleryID, title, alt, source) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+
+    connection.query(
+      articleQueries.linkPhotoWithGallery(
+        photoID,
+        galleryID,
+        title,
+        alt,
+        source
+      )
+    ),
+      (err, rows, fields) => {
+        if (err) {
+          connection.destroy();
+          reject(err);
+        }
+        connection.destroy();
+        resolve(rows);
+      };
+  });
+};
+
 router.post("/articles/add", async (req, res) => {
-  let article = req.body;
-  let articleRes = await createArticle(article);
-  let tags = await Promise.all(article.tags.map((tag) => addTag(tag)));
-  let links = await Promise.all(
-    article.tags.map((tag) => linkTag(tag, articleRes))
-  );
-  res.send({ links });
+  try {
+    let article = req.body;
+    let articleRes = await createArticle(article);
+    let tags = await Promise.all(article.tags.map((tag) => addTag(tag)));
+    let links = await Promise.all(
+      article.tags.map((tag) => linkTag(tag, articleRes))
+    );
+    article.sections.forEach(async (section, index) => {
+      const sectionID = await addSection(section, articleRes, index + 1);
+      console.log(section);
+      if (section.gallery) {
+        try {
+          let galleryID = await addSectionGallery(section.gallery, sectionID);
+          section.gallery.photos.forEach(async (photo) => {
+            await linkPhotoWithGallery(
+              photo.id,
+              galleryID,
+              photo.title,
+              photo.alternative,
+              photo.source
+            );
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).err({ err });
+  }
+  res.status(201).send({ article });
 });
 export default router;
