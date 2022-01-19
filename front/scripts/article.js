@@ -34,49 +34,62 @@ const renderUI = (article) => {
         <h1 class="article-title title">
         ${article.title}
       </h1>
-      <img
-        src="${URL}/static/article_thumbnails/${article.thumbnail_path}"
-        alt="article thumbnail"
-        class="article-image"
-      />
+      ${
+        article.thumbnail_path
+          ? `<img
+      src="${URL}/static/article_thumbnails/${article.thumbnail_path}"
+      alt="article thumbnail"
+      class="article-image"
+    />`
+          : ""
+      }
+      
       <p class="article-description">
         ${article.description}
       </p>
         `;
   articleContainer += "</div>";
   article.sections.forEach((section, index) => {
-    galleries.push(section.gallery.photos);
+    console.log(section);
+    if (section.gallery) {
+      galleries.push(section.gallery.photos);
+    } else {
+      galleries.push(null);
+    }
     currentIndex.push(0);
     translateX.push(0);
     articleContainer += `<div class="article-section">`;
     articleContainer += `<h2>${section.title}</h2>`;
-    articleContainer += `<div class="section-gallery">`;
-    articleContainer += `<div class="gallery" data-index=${index}>`;
-    if (section.gallery.photos.length > 1) {
-      articleContainer += `<button class="prev"><</button>`;
-    }
-    articleContainer += `${
-      section.gallery.title != "null"
-        ? `Gallery: ${section.gallery.title}`
-        : "Gallery"
-    }`;
-    articleContainer += `<div class="gallery-images">`;
+    if (section.gallery) {
+      articleContainer += `<div class="section-gallery">`;
+      articleContainer += `<div class="gallery" data-index=${index}>`;
+      if (section.gallery?.photos.length > 1) {
+        articleContainer += `<button class="prev"><</button>`;
+      }
+      articleContainer += `${
+        section.gallery?.title != "null"
+          ? `Gallery: ${section.gallery?.title}`
+          : "Gallery"
+      }`;
+      articleContainer += `<div class="gallery-images">`;
 
-    section.gallery.photos.forEach((photo) => {
-      articleContainer += `<div class="image">
+      section.gallery?.photos.forEach((photo) => {
+        articleContainer += `<div class="image">
         <img src="${URL}/static/user_photos/${photo.filepath}" alt="${
-        photo.alt_text
-      }" />
+          photo.alt_text
+        }" />
           ${photo.title == null ? "" : `<h4>${photo.title}</h4>`}
         <p>Source: ${photo.source}</p>
       </div>`;
-    });
-    articleContainer += `</div>`;
-    if (section.gallery.photos.length > 1) {
-      articleContainer += `<button class="next">></button>`;
+      });
+      articleContainer += `</div>`;
+      if (section.gallery?.photos.length > 1) {
+        articleContainer += `<button class="next">></button>`;
+      }
+      articleContainer += `</div>`;
+      articleContainer += `</div>`;
     }
-    articleContainer += `</div>`;
-    articleContainer += `</div>`;
+
     articleContainer += `<div class="section-content">${section.content}</div>`;
     articleContainer += `</div>`;
   });

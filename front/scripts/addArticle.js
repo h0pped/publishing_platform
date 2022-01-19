@@ -253,7 +253,13 @@ const getBase64 = (file) => {
 };
 
 const splitTags = (tags) =>
-  tags.split(",").map((tag) => tag.trim().toLowerCase());
+  tags
+    .split(",")
+    .map(
+      (tag) =>
+        tag.trim().toLowerCase().slice(0, 1).toUpperCase() +
+        tag.trim().toLowerCase().slice(1, tag.length)
+    );
 
 const parseArticleData = async () => {
   let img;
@@ -316,6 +322,7 @@ const parseArticleData = async () => {
   });
 
   articleData = {
+    email: userCredentials?.email,
     img,
     title,
     description,
@@ -323,6 +330,16 @@ const parseArticleData = async () => {
     tags,
     sections,
   };
+  fetch(`${SERVER_URL}/articles/add`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify(articleData),
+  })
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 };
 
 form.addEventListener("submit", async (e) => {
