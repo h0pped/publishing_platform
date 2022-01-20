@@ -185,14 +185,14 @@ modal.addEventListener("click", (e) => {
   }
   document.querySelector(
     `.add-section-container[data-index="${currentImageSelector.section}"] .gallery-img[data-index="${currentImageSelector.photo}"]`
-  ).src = `${SERVER_URL}/static/user_photos/${chosenPhoto.filepath}`;
+  ).src = `${chosenPhoto.filepath}`;
   hideModal();
 });
 const renderImage = (image) => {
   const imgContainer = `<div class="photo-card" data-index=${image.id}>
   <div class="img" >
   <img
-  src="${SERVER_URL}/static/user_photos/${image.filepath}"
+  src="${image.filepath}"
   alt="${image.filepath}"
   />
   </div>

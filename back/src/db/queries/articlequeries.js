@@ -86,3 +86,8 @@ ${photoID},
 "${source}");
 
 `;
+
+export const getArticleLikes = (articleID) => `
+  Select Count(*) as Likes from \`Like\`
+  where article_id=${articleID}
+`;

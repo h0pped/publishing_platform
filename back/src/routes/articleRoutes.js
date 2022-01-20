@@ -5,6 +5,8 @@ import fs from "fs";
 
 import * as connectionRequest from "../db/connection.js";
 import * as articleQueries from "../db/queries/articlequeries.js";
+import * as userQueries from "../db/queries/userqueries.js";
+import * as firebase from "../firebase/firebase.js";
 
 router.get("/articles/recent", (req, res) => {
   let connection = connectionRequest.connectionRequest();
@@ -124,6 +126,20 @@ const getGalleryImages = (galleryID) => {
     );
   });
 };
+const getArticleUser = (userID) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+
+    connection.query(userQueries.findByID(userID), (err, rows, fields) => {
+      if (err) {
+        connection.destroy();
+        return reject(err);
+      }
+      connection.destroy();
+      resolve(rows[0]);
+    });
+  });
+};
 const getUserArticles = (email) => {
   return new Promise((resolve, reject) => {
     let connection = connectionRequest.connectionRequest();
@@ -137,6 +153,23 @@ const getUserArticles = (email) => {
         }
         connection.destroy();
         resolve(rows);
+      }
+    );
+  });
+};
+const getArticleLikes = (articleID) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+
+    connection.query(
+      articleQueries.getArticleLikes(articleID),
+      (err, rows, fields) => {
+        if (err) {
+          connection.destroy();
+          return reject(err);
+        }
+        connection.destroy();
+        resolve(rows[0]);
       }
     );
   });
@@ -221,6 +254,14 @@ router.get("/articles/byID/:id", (req, res) => {
         }
         return section;
       });
+      return getArticleUser(article.user_id);
+    })
+    .then((user) => {
+      article.user = user;
+      return getArticleLikes(id);
+    })
+    .then((likes) => {
+      article.likes = likes.Likes;
       res.send(article);
     })
     .catch((err) => {
@@ -229,7 +270,7 @@ router.get("/articles/byID/:id", (req, res) => {
     });
 });
 
-const createArticle = (article) => {
+const createArticle = async (article) => {
   let imgpath;
   let regex;
   let matches;
@@ -245,7 +286,12 @@ const createArticle = (article) => {
       buffer = Buffer.from(data, "base64");
       imgpath = article.email + "_" + Date.now() + "." + ext;
       fs.writeFileSync(`./public/article_thumbnails/${imgpath}`, buffer);
-      article.imgpath = imgpath;
+      article.imgpath = await firebase.uploadFile(
+        `/public/article_thumbnails/${imgpath}`,
+        imgpath
+      );
+      // console.log(article.imgpath);
+      // article.imgpath = imgpath;
     } catch (err) {
       console.log(err);
     }
@@ -391,6 +437,6 @@ router.post("/articles/add", async (req, res) => {
     console.error(err);
     res.status(500).err({ err });
   }
-  res.status(201).send({ article });
+  res.status(201).send();
 });
 export default router;

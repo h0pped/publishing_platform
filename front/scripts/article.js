@@ -7,6 +7,11 @@ const params = urlParams.getAll("id");
 
 const id = urlParams.get("id");
 
+function sqlToJsDate(sqlDate) {
+  var dateParts = sqlDate.split("-");
+  return new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+}
+
 console.log(id);
 let article;
 fetch(`${URL}/articles/byID/${id}`)
@@ -37,7 +42,7 @@ const renderUI = (article) => {
       ${
         article.thumbnail_path
           ? `<img
-      src="${URL}/static/article_thumbnails/${article.thumbnail_path}"
+      src="${article.thumbnail_path}"
       alt="article thumbnail"
       class="article-image"
     />`
@@ -75,9 +80,7 @@ const renderUI = (article) => {
 
       section.gallery?.photos.forEach((photo) => {
         articleContainer += `<div class="image">
-        <img src="${URL}/static/user_photos/${photo.filepath}" alt="${
-          photo.alt_text
-        }" />
+        <img src="${photo.filepath}" alt="${photo.alt_text}" />
           ${photo.title == null ? "" : `<h4>${photo.title}</h4>`}
         <p>Source: ${photo.source}</p>
       </div>`;
@@ -93,6 +96,20 @@ const renderUI = (article) => {
     articleContainer += `<div class="section-content">${section.content}</div>`;
     articleContainer += `</div>`;
   });
+  articleContainer += `
+  <div class="article-data">
+  <p class="author">Author: <a href="/profile/?id=${article.user_id}">${
+    article.user.surname
+  } ${article.user.name}</a></p>
+  <p class="likes">Likes: <a href="/article/likes/?id=${article.id}">${
+    article.likes
+  }</a></p>
+  <p class="date">Date: ${sqlToJsDate(article.postDate).toLocaleString(
+    "fr-CA",
+    { year: "numeric", month: "2-digit", day: "2-digit" }
+  )}</p>
+</div>
+  `;
   articleContainer += "</div>";
   container.innerHTML += articleContainer;
   let articleGalleries = container.querySelectorAll(".gallery");

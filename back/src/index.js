@@ -4,14 +4,28 @@ import conutil from "./util/consoleutil.js";
 import cors from "cors";
 import path from "path";
 import bodyParser from "body-parser";
+import fs from "fs";
 
 const app = express();
 app.use(cors());
 
 const __dirname = path.resolve();
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use("/static", express.static(__dirname + "/public"));
+app.use("/static", express.static(path.join(__dirname, "/public")));
 
+const directoryPath = path.join(__dirname, "/public");
+//passsing directoryPath and callback function
+fs.readdir(directoryPath, function (err, files) {
+  //handling error
+  if (err) {
+    return console.log("Unable to scan directory: " + err);
+  }
+  //listing all files using forEach
+  files.forEach(function (file) {
+    // Do whatever you want to do with the file
+    console.log(file);
+  });
+});
 const port = process.env.PORT || 3000;
 
 app.use(express.json());

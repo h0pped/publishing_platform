@@ -80,13 +80,15 @@ function renderUI(user) {
     }
   }
   const imageContainer = document.querySelector(".profile-photo img");
-  imageContainer.src = `${URL}/static/profile_pics/${user.avatar_path}`;
+  console.log(user);
+  imageContainer.src = `${user.avatar_path}`;
 
   const nameContainer = document.querySelector(".name-surname");
   nameContainer.innerHTML = `${user.name} ${user.surname}`;
 
   // TODO: location
   const locationContainer = document.querySelector(".location");
+  locationContainer.innerHTML = `${user.location.city}, ${user.location.country}`;
   // locationContainer.innerHTML = `${}`
 
   const profileNameContainer = document.querySelector(".profile-name");
@@ -127,7 +129,7 @@ function renderUI(user) {
   userArticles.forEach((article) => {
     let articleContainer = `<div class="article" data-id="${article.ID}">`;
     articleContainer += `<div class="article-photo">
-    <img src="${URL}/static/article_thumbnails/${article.thumbnail_path}" alt="article_thumbnail" />
+    <img src="${article.thumbnail_path}" alt="article_thumbnail" />
     </div>`;
     articleContainer += `<div class="article-information">`;
     articleContainer += `<h3>${article.title}</h3>

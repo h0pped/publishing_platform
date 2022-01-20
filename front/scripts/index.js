@@ -10,7 +10,7 @@ const generateArticle = (data) => {
     <a href="/article/?id=${data.ID}">
     <div class="article-thumbnail">
       <img
-        src="${SERVER_URL}/static/article_thumbnails/${data.thumbnail_path}"
+        src="${data.thumbnail_path}"
         alt="article thumbnail"
       />
     </div>

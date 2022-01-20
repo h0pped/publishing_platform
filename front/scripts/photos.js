@@ -17,7 +17,7 @@ const renderImage = (image) => {
   const imgContainer = `<a href="/photo/${image.id}"><div class="photo-card">
   <div class="img">
   <img
-  src="${URL}/static/user_photos/${image.filepath}"
+  src="${image.filepath}"
   alt="${image.filepath}"
   />
   </div>

@@ -4,8 +4,10 @@ const router = express.Router();
 
 import * as connectionRequest from "../db/connection.js";
 import * as photoQueries from "../db/queries/photoqueries.js";
-router.get("/photos/:email", (req, res) => {
+import * as firebase from "../firebase/firebase.js";
+router.get("/photos/:email", async (req, res) => {
   let { email } = req.params;
+  await firebase.uploadFile("/public/user_photos/apps.png", "apps2.png");
   let connection = connectionRequest.connectionRequest();
   connection.query(
     photoQueries.getPhotosByUserID(email),
@@ -20,7 +22,7 @@ router.get("/photos/:email", (req, res) => {
     }
   );
 });
-router.post("/photos/add", (req, res) => {
+router.post("/photos/add", async (req, res) => {
   const { email, img, name } = req.body;
   let imgpath;
   let regex;
@@ -28,6 +30,7 @@ router.post("/photos/add", (req, res) => {
   let ext;
   let data;
   let buffer;
+
   try {
     regex = /^data:.+\/(.+);base64,(.*)$/;
     matches = img.match(regex);
@@ -36,6 +39,10 @@ router.post("/photos/add", (req, res) => {
     buffer = Buffer.from(data, "base64");
     imgpath = email + "_" + name + "_" + Date.now() + "." + ext;
     fs.writeFileSync(`./public/user_photos/${imgpath}`, buffer);
+    imgpath = await firebase.uploadFile(
+      `/public/user_photos/${imgpath}`,
+      imgpath
+    );
     let connection = connectionRequest.connectionRequest();
     connection.query(
       photoQueries.addPhoto(email, name, imgpath),

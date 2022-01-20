@@ -7,6 +7,7 @@ import * as cityQueries from "../db/queries/cityqueries.js";
 import * as locationQueries from "../db/queries/locationqueries.js";
 import fs from "fs";
 import chalk from "chalk";
+import * as firebase from "../firebase/firebase.js";
 
 import bcrypt from "bcryptjs";
 
@@ -63,6 +64,23 @@ const insertLocation = (location) => {
     let connection = connectionRequest.connectionRequest();
     connection.query(
       locationQueries.insertNewLocation(location),
+      (err, res, fields) => {
+        if (err) {
+          reject(err);
+          return connection.destroy();
+        }
+        resolve(res[0]);
+        return connection.destroy();
+      }
+    );
+  });
+};
+
+const getCountryAndCity = (userID) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(
+      locationQueries.getCountryAndCity(userID),
       (err, res, fields) => {
         if (err) {
           reject(err);
@@ -185,13 +203,19 @@ router.post("/users/signup", async (req, res) => {
         buffer = Buffer.from(data, "base64");
         let imgpath = user.email + "_avatar." + ext;
         fs.writeFileSync(`./public/profile_pics/${imgpath}`, buffer);
-        imagepath = user.email + "_avatar." + ext;
+        imagepath = await firebase.uploadFile(
+          `/public/profile_pics/${imgpath}`,
+          imgpath
+        );
+        console.log(imagepath);
       } catch (err) {
         console.log(err);
       }
     }
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(user.password, salt);
+    console.log(imagepath);
+
     const userdb = {
       name: user.name,
       surname: user.surname,
@@ -281,6 +305,13 @@ router.get("/users/byEmail/:email", (req, res) => {
             link: l.link,
           };
         });
+        return getCountryAndCity(user.id);
+      })
+      .then((countryAndCity) => {
+        user.location = {
+          city: countryAndCity.city,
+          country: countryAndCity.country,
+        };
         res.send(user);
       })
       .catch((err) => {
@@ -316,6 +347,13 @@ router.get("/users/byID/:id", (req, res) => {
             link: l.link,
           };
         });
+        return getCountryAndCity(user.id);
+      })
+      .then((countryAndCity) => {
+        user.location = {
+          city: countryAndCity.city,
+          country: countryAndCity.country,
+        };
         res.send(user);
       })
       .catch((err) => {
