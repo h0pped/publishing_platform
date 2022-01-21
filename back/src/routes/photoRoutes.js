@@ -7,7 +7,7 @@ import * as photoQueries from "../db/queries/photoqueries.js";
 import * as firebase from "../firebase/firebase.js";
 router.get("/photos/:email", async (req, res) => {
   let { email } = req.params;
-  await firebase.uploadFile("/public/user_photos/apps.png", "apps2.png");
+  // await firebase.uploadFile("/public/user_photos/apps.png", "apps2.png");
   let connection = connectionRequest.connectionRequest();
   connection.query(
     photoQueries.getPhotosByUserID(email),

@@ -92,6 +92,22 @@ const getArticleSections = (articleID) => {
     );
   });
 };
+const getArticleComments = (articleID) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+    connection.query(
+      articleQueries.getArticleComments(articleID),
+      (err, rows, fields) => {
+        if (err) {
+          connection.destroy();
+          return reject(err);
+        }
+        connection.destroy();
+        resolve(rows);
+      }
+    );
+  });
+};
 const getSectionGallery = (sectionID) => {
   return new Promise((resolve, reject) => {
     let connection = connectionRequest.connectionRequest();

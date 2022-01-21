@@ -1,4 +1,4 @@
-public/article_thumbnails/*
-public/categories/*
-public/profile_pics/*
-public/user_photos/*
+#public/article_thumbnails/*
+#public/categories/*
+#public/profile_pics/*
+#public/user_photos/*
