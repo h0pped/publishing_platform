@@ -91,3 +91,13 @@ export const getArticleLikes = (articleID) => `
   Select Count(*) as Likes from \`Like\`
   where article_id=${articleID}
 `;
+
+export const getArticleComments = (articleID) => `
+Select c.id, c.article_id,user.id as "user_id",user.email as "user_email",user.name, user.surname, user.avatar_path as "avatar_path",c.content from Comment c 
+inner join user on user.id=c.user_id
+where article_id=${articleID};`;
+
+export const addComment = (articleID, email, comment) => `
+insert into Comment(\`user_id\`,\`article_id\`,\`content\`) values
+((select id from user where email="${email}"),${articleID},"${comment}");
+`;

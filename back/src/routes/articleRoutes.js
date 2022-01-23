@@ -278,6 +278,10 @@ router.get("/articles/byID/:id", (req, res) => {
     })
     .then((likes) => {
       article.likes = likes.Likes;
+      return getArticleComments(id);
+    })
+    .then((comments) => {
+      article.comments = comments;
       res.send(article);
     })
     .catch((err) => {
@@ -454,5 +458,36 @@ router.post("/articles/add", async (req, res) => {
     res.status(500).err({ err });
   }
   res.status(201).send();
+});
+const addComment = (articleID, comment, email) => {
+  return new Promise((resolve, reject) => {
+    let connection = connectionRequest.connectionRequest();
+
+    connection.query(
+      articleQueries.addComment(articleID, comment, email),
+      (err, rows, fields) => {
+        if (err) {
+          console.log(err);
+          connection.destroy();
+          reject(err);
+        }
+        connection.destroy();
+        resolve(rows);
+      }
+    );
+  });
+};
+router.post("/articles/:id/comment/add", async (req, res) => {
+  const { id } = req.params;
+  const { email, comment } = req.body;
+  console.log("ADD");
+  try {
+    let rescomm = await addComment(id, email, comment);
+    console.log("ADDED");
+    res.status(201).send({ rescomm });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
 });
 export default router;
