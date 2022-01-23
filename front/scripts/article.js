@@ -3,6 +3,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 const URL = "https://awril-publishing-platform.herokuapp.com";
+// const URL = "http://localhost:3000";
 const params = urlParams.getAll("id");
 
 const id = urlParams.get("id");
@@ -12,8 +13,9 @@ function sqlToJsDate(sqlDate) {
   return new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
 }
 
-console.log(id);
 let article;
+// console.log(addCommentForm.elements);
+
 fetch(`${URL}/articles/byID/${id}`)
   .then((res) => res.json())
   .then((data) => {
@@ -111,7 +113,59 @@ const renderUI = (article) => {
 </div>
   `;
   articleContainer += "</div>";
-  container.innerHTML += articleContainer;
+  // container.innerHTML += articleContainer;
+  try {
+    let jsonCredentials = userCredentials && JSON.parse(userCredentials);
+    if (jsonCredentials?.email) {
+      container.innerHTML = articleContainer + container.innerHTML;
+      const addCommentForm = document.querySelector("#add-comment-form");
+      addCommentForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        let comment = addCommentForm.elements[0].value;
+        console.log(
+          "EEEEE,",
+          JSON.stringify({ comment, email: jsonCredentials?.email })
+        );
+        let res = await fetch(`${URL}/articles/${id}/comment/add`, {
+          method: "POST", // или 'PUT'
+          body: JSON.stringify({ comment, email: jsonCredentials?.email }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => res.status);
+        if (res === 201) {
+          window.location.reload();
+        } else console.log(res);
+      });
+      const comments = document.querySelector(".comments");
+      comments.classList.remove("hidden");
+    } else {
+      container.innerHTML = articleContainer + container.innerHTML;
+      const comments = document.querySelector(".comments");
+      comments.querySelector("#add-comment-form").remove();
+      comments.classList.remove("hidden");
+    }
+    const comments = document.querySelector(".comments");
+
+    article.comments.forEach((comment) => {
+      console.log(comment);
+      const commentContainer = `
+      <div class="comment">
+      <div class="comment-meta">
+        <a href="/profile/?id=${comment.user_id}"><img src="${comment.avatar_path}" alt="Avatar" /></a>
+        <a href="/profile/?id=${comment.user_id}">${comment.name} ${comment.surname}</a>
+      </div>
+      <div class="comment-content">
+        ${comment.content}
+      </div>
+    </div>
+      `;
+      comments.innerHTML += commentContainer;
+    });
+  } catch (err) {
+    console.log(err);
+  }
+
   let articleGalleries = container.querySelectorAll(".gallery");
   console.log("GALLERIES", articleGalleries);
   articleGalleries.forEach((gallery) => {
@@ -148,32 +202,3 @@ const renderUI = (article) => {
 const renderError = (error) => {
   console.log(error);
 };
-
-// const prevButton = document.querySelector(".prev");
-// const nextButton = document.querySelector(".next");
-// const imagesGallery = document.querySelector(".gallery-images");
-// let currentIndex = [0];
-// let translateX = [0];
-// console.log(prevButton);
-
-// prevButton.addEventListener("click", (e) => {
-//   images = imagesGallery.querySelectorAll(".image");
-//   if (currentIndex[0] != 0) {
-//     translateX[0] += 700;
-//     currentIndex[0] -= 1;
-
-//     images.forEach((image) => {
-//       image.style.transform = `translateX(${translateX[0]}px)`;
-//     });
-//   }
-// });
-
-// nextButton.addEventListener("click", (e) => {
-//   images = imagesGallery.querySelectorAll(".image");
-//   translateX[0] -= 700;
-//   currentIndex[0] += 1;
-
-//   images.forEach((image) => {
-//     image.style.transform = `translateX(${translateX[0]}px)`;
-//   });
-// });

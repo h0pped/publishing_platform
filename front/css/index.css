@@ -203,6 +203,10 @@ a:hover.active::after {
   margin-bottom: 0.7rem;
 }
 
+.hidden {
+  display: none;
+}
+
 section {
   display: flex;
   flex-direction: column;

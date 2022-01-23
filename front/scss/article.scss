@@ -121,3 +121,46 @@
     }
   }
 }
+
+.comments {
+  width: 80%;
+  text-align: center;
+  form {
+    margin-bottom: 2rem;
+    label {
+      text-align: left;
+    }
+    textarea {
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+  }
+  .comment {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    border: 1px solid colors.$base-dark;
+    padding: 0.5rem;
+    width: 100%;
+    &-meta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      a {
+        color: black;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-right: 1rem;
+      }
+    }
+    &-content {
+      margin-left: 65px;
+    }
+  }
+}

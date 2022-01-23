@@ -126,4 +126,47 @@
   color: #ffd900;
 }
 
+.comments {
+  width: 80%;
+  text-align: center;
+}
+.comments form {
+  margin-bottom: 2rem;
+}
+.comments form label {
+  text-align: left;
+}
+.comments form textarea {
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+.comments .comment {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  border: 1px solid #191919;
+  padding: 0.5rem;
+  width: 100%;
+}
+.comments .comment-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.comments .comment-meta a {
+  color: black;
+}
+.comments .comment-meta img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+.comments .comment-content {
+  margin-left: 65px;
+}
+
 /*# sourceMappingURL=article.css.map */

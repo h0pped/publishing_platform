@@ -187,4 +187,8 @@ a:hover.active::after {
   margin-bottom: 0.7rem;
 }
 
+.hidden {
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */
