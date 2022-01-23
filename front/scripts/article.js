@@ -119,6 +119,7 @@ const renderUI = (article) => {
     if (jsonCredentials?.email) {
       container.innerHTML = articleContainer + container.innerHTML;
       const addCommentForm = document.querySelector("#add-comment-form");
+
       addCommentForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         let comment = addCommentForm.elements[0].value;
@@ -140,6 +141,7 @@ const renderUI = (article) => {
       const comments = document.querySelector(".comments");
       comments.classList.remove("hidden");
     } else {
+      console.log("NOT LOGGED IN");
       container.innerHTML = articleContainer + container.innerHTML;
       const comments = document.querySelector(".comments");
       comments.querySelector("#add-comment-form").remove();
@@ -198,6 +200,28 @@ const renderUI = (article) => {
       }
     });
   });
+  const addCommentForm = document.querySelector("#add-comment-form");
+  let jsonCredentials = userCredentials && JSON.parse(userCredentials);
+  if (addCommentForm && jsonCredentials?.email) {
+    addCommentForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      let comment = addCommentForm.elements[0].value;
+      console.log(
+        "EEEEE,",
+        JSON.stringify({ comment, email: jsonCredentials?.email })
+      );
+      let res = await fetch(`${URL}/articles/${id}/comment/add`, {
+        method: "POST", // или 'PUT'
+        body: JSON.stringify({ comment, email: jsonCredentials?.email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.status);
+      if (res === 201) {
+        window.location.reload();
+      } else console.log(res);
+    });
+  }
 };
 const renderError = (error) => {
   console.log(error);
