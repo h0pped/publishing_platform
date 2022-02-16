@@ -4,5 +4,4 @@
   
 
 Illia Nykonchuk
-
 Mykhaylo Plesha
